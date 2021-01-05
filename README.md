@@ -6,4 +6,4 @@ The actual blog post that accompanies this is here: https://opengislab.com/blog/
 
 Demo site: https://stephsaephan.github.io/leaflet-map-example/
 
-On this demo i try to create a stylish marker for every time which user click on map.
+In this demo i try to create a stylish marker for every time user click on map.
