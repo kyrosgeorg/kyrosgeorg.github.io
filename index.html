@@ -375,17 +375,104 @@ ul li:nth-child(3){
     border-top: 1px solid rgba(0,0,0,0.2);
     padding-top: 2px;
 }
+.container {
+    max-width: 640px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-size: 13px;
+    position: absolute;
+    top: -9px;
+    z-index: 9999;
+    width: 150px;
+    left: 3%;
+}
+@media screen and (max-width: 768px){
+    .container {
+        left: 9%;
+    }
+}
+    
+ul.ks-cboxtags {
+    list-style: none;
+    padding: 6px;
+}
+ul.ks-cboxtags li{
+  display: inline;
+  border: none;
+}
+ul.ks-cboxtags li label{
+    display: inline-block;
+    background-color: rgba(255, 255, 255, .9);
+    border: 2px solid rgba(139, 139, 139, .3);
+    color: #adadad;
+    border-radius: 25px;
+    white-space: nowrap;
+    margin: 3px 0px;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    -webkit-tap-highlight-color: transparent;
+    transition: all .2s;
+}
 
+ul.ks-cboxtags li label {
+    padding: 8px 12px;
+    cursor: pointer;
+}
+
+ul.ks-cboxtags li label::before {
+    display: inline-block;
+    font-style: normal;
+    font-variant: normal;
+    text-rendering: auto;
+    -webkit-font-smoothing: antialiased;
+    font-family: "Font Awesome 5 Free";
+    font-weight: 900;
+    font-size: 12px;
+    padding: 2px 6px 2px 2px;
+    content: "\f067";
+    transition: transform .3s ease-in-out;
+}
+
+ul.ks-cboxtags li input[type="checkbox"]:checked + label::before {
+    content: "\f00c";
+    transform: rotate(-360deg);
+    transition: transform .3s ease-in-out;
+}
+
+ul.ks-cboxtags li input[type="checkbox"]:checked + label {
+    border: 1px solid #a8a8a8;
+    background-color:#ffee7f;
+    color: rgb(0, 0, 0);
+    transition: all .2s;
+}
+
+ul.ks-cboxtags li input[type="checkbox"] {
+  display: absolute;
+}
+ul.ks-cboxtags li input[type="checkbox"] {
+  position: absolute;
+  opacity: 0;
+}
+ul.ks-cboxtags li input[type="checkbox"]:focus + label {
+  border: 2px solid #1616c1;
+}
 
 </style>
 
 </head>
 
 <body>
-    <input type="checkbox" id="temp_check" autocomplete="off" checked> Temp</input>    
-    <input type="checkbox" id="rain_check" autocomplete="off" checked> Rain</input> 
-    <input type="checkbox" id="wind_check" autocomplete="off" checked> Wind</input>     
-    <input type="checkbox" id="bar_check" autocomplete="off"> Bar</input>    
+    <div class="container">
+        <ul class="ks-cboxtags">
+          <li><input type="checkbox" id="checkboxOne" value="Rainbow Dash" checked autocomplete="off"><label for="checkboxOne">Temperature</label></li>
+          <li><input type="checkbox" id="checkboxTwo" value="Cotton Candy" checked autocomplete="off"><label for="checkboxTwo">Rain</label></li>
+          <li><input type="checkbox" id="checkboxThree" value="Rarity" checked autocomplete="off"><label for="checkboxThree">Wind</label></li>
+          <li><input type="checkbox" id="checkboxFour" value="Moondancer" autocomplete="off"><label for="checkboxFour">Bar.Pressure</label></li>
+        </ul>
+      
+      </div>   
       
 <div id="map"></div>
 
@@ -394,10 +481,12 @@ ul li:nth-child(3){
             center: [39, 24], // Honolulu, HI
             zoom: 7
         });
-       
+        
+
         map.on('click', addMarker);
             var Marker;
-           
+    
+
         //convert svg to base64 data
         function svgText(txt) {
             return '<svg width="120px" height="55px" viewBox="0 0 120 55" font-family="Arial" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><defs><linearGradient id="MyGradient" x1="0" x2="1" y1="0" y2="1"><stop offset="20%"  stop-color="white" stop-opacity="0.3"/><stop offset="50%"  stop-color="white" stop-opacity="0"/><stop offset="80%" stop-color="#555" stop-opacity="0.2"/></linearGradient><linearGradient id="MyGradient_back" x1="0" x2="0.5" y1="0" y2="1"><stop offset="0%"  stop-color="black" stop-opacity="0"/><stop offset="100%" stop-color="black" stop-opacity="0.4"/></linearGradient><path id="mark2" d="M 0,-1 -50,-1 A 5,5 0 0,1 -55,-6 L -55,-20 A 5,5 0 0,1 -50,-25 L 50,-25 A 5,5 0 0,1 55,-20 L 55,-6 A 5,5 0 0,1 50,-1 z" /><circle id="c1" cx="49" cy="-36" r="10" /></defs><g transform="translate(60,47)" ><circle cx="0" cy="1" r="2" fill="#555"/><path d="M 2,-4 2,-6 A 7,7 0 1,1 -2,-6 L -2,-4 A 5,5 0 1,0 2,-4 z" fill="#555" stroke="none" /><path d="M 0,0 v -20" stroke="#555" stroke-width="2" /><use xlink:href="#mark2" x="0" y="-14" stroke="#555" fill="#fff" stroke-width="2" /><text text-anchor="end" dominant-baseline="middle"  font-size="13px" transform="translate(-20,-26)" fill="#555" stroke="none"><tspan>T:</tspan></text><text text-anchor="start" dominant-baseline="middle" font-size="13px" transform="translate(-16,-26)" fill="#555" stroke="none"><tspan>'+txt+'</tspan></text></g></svg>';      
@@ -407,22 +496,22 @@ ul li:nth-child(3){
 
             var angle = Math.floor((Math.random() * 10) + 1);
 
-            if($('#temp_check').is(':checked')) {
+            if($('#checkboxOne').is(':checked')) {
                 var temp_div="<li class='temp' id='temp_id'><i class='fas fa-thermometer-half'></i>&nbsp;&nbsp;<v-r>&nbsp;&nbsp;</v-r>"+Math.floor((Math.random() * 35) + 1)+"°C</li>";
             }else{
                 var temp_div="";
             }
-            if($('#rain_check').is(':checked')) {
+            if($('#checkboxTwo').is(':checked')) {
                 var rain_div="<li class='rain'><i class='fas fa-tint'></i>&nbsp;&nbsp;<v-r>&nbsp;&nbsp;</v-r>"+Math.floor((Math.random() * 10) + 1)+" mm</li>";
             }else{
                 var rain_div="";
             }
-            if($('#wind_check').is(':checked')) {
+            if($('#checkboxThree').is(':checked')) {
                 var wind_div="<li class='wind'><i class='fas fa-wind'></i>&nbsp;&nbsp;<v-r>&nbsp;&nbsp;</v-r><i class='fas fa-location-arrow' style='transform: rotate("+Math.floor((Math.random() * 1000) + 10)+"deg)'></i>&nbsp;"+Math.floor((Math.random() * 100) + 1)+" km/h</li>";
             }else{
                 var wind_div="";
             }
-            if($('#bar_check').is(':checked')) {
+            if($('#checkboxFour').is(':checked')) {
                 var bar_div="<li class='bar'><i class='fas fa-tachometer-alt'></i>&nbsp;&nbsp;<v-r>&nbsp;&nbsp;</v-r>"+Math.floor((Math.random() * 1000) + 10)+" hPa</li>";
             }else{
                 var bar_div="";
@@ -442,7 +531,7 @@ ul li:nth-child(3){
         if (Marker) {
             map.removeLayer(Marker);
         }
-       
+        
         // Add marker to map at click location; add popup window
         Marker = new L.marker(e.latlng, {
             icon: icon,
@@ -450,6 +539,7 @@ ul li:nth-child(3){
         Marker.on('click', function(){
 	        alert("Clicked");
          });
+       
          function css_change(){
          if ($(".data-values").find("li:visible").length==2){
             $(".mark-content").find("a").css('height',"58px");
@@ -490,7 +580,7 @@ ul li:nth-child(3){
          }
         }
         css_change();
-         $("#temp_check").change(function() {
+         $("#checkboxOne").change(function() {
             if(this.checked) {
                 $(".temp").css("display", "block");
                 css_change();
@@ -500,7 +590,7 @@ ul li:nth-child(3){
             }
              });
 
-         $("#rain_check").change(function() {
+         $("#checkboxTwo").change(function() {
             if(this.checked) {
                 $(".rain").css("display", "block");
                 css_change();
@@ -509,7 +599,7 @@ ul li:nth-child(3){
                 css_change();
             }
              });      
-         $("#wind_check").change(function() {
+         $("#checkboxThree").change(function() {
             if(this.checked) {
                 $(".wind").css("display", "block");
                 css_change();
@@ -519,7 +609,7 @@ ul li:nth-child(3){
             }
              }); 
 
-         $("#bar_check").change(function() {
+         $("#checkboxFour").change(function() {
             if(this.checked) {
                 $(".bar").css("display", "block");
                 css_change();
@@ -537,12 +627,6 @@ ul li:nth-child(3){
             alert("Allowed only 3. Please uncheck some of checked and check new");
         }
         });
-        
-       
-
-        
-
-    
 
         var defaultBase = L.tileLayer.provider('Stamen.TonerLite').addTo(map);
 
