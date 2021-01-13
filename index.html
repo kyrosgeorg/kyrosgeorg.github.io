@@ -287,12 +287,6 @@ body,
     -moz-transition: 0.20s;
     -ms-transition: 0.20s;
     -o-transition: 0.20s;
-    -webkit-transform: rotate(360deg);
-    -moz-transform: rotate(360deg);
-    -o-transform: rotate(360deg);
-    -ms-transform: rotate(360deg);
-    transform: rotate(360deg);
-    clip-path: circle(45%);
     background-color: #1616c1;
     color:white;
 }
@@ -541,43 +535,22 @@ ul.ks-cboxtags li input[type="checkbox"]:focus + label {
          });
        
          function css_change(){
-         if ($(".data-values").find("li:visible").length==2){
-            $(".mark-content").find("a").css('height',"58px");
-            $(".mark-content").find("b").css('position',"relative");
-            $(".mark-content").find("b").css('top',"calc(50% - 15px)");
-            $(".mark-content").find("ul li:nth-child(2)").css('padding-top',"2px");
-            $(".mark-link").hover(
-            function() {
-                $( this ).css("clip-path","circle(33%)");
-            }, function() {
-                $( this ).css("clip-path","circle(100%)"); //to remove property set it to ''
+            if ($(".data-values").find("li:visible").length==2){
+                $(".mark-content").find("a").css('height',"58px");
+                $(".mark-content").find("b").css('position',"relative");
+                $(".mark-content").find("b").css('top',"calc(50% - 15px)");
+                $(".mark-content").find("ul li:nth-child(2)").css('padding-top',"2px");
             }
-            );            
-         }
-         else if($(".data-values").find("li:visible").length==3){
-            $(".mark-content").find("a").css('height',"86px");
-            $(".mark-content").find("b").css('position',"relative");
-            $(".mark-content").find("b").css('top',"calc(50% - 15px)");
-            $(".mark-link").hover(
-            function() {
-                $( this ).css("clip-path","circle(82%)");
-            }, function() {
-                $( this ).css("clip-path","circle(100%)"); //to remove property set it to ''
+            else if($(".data-values").find("li:visible").length==3){
+                $(".mark-content").find("a").css('height',"86px");
+                $(".mark-content").find("b").css('position',"relative");
+                $(".mark-content").find("b").css('top',"calc(50% - 15px)");
             }
-            );
-            
-         }else{
-            $(".mark-content").find("a").css('height',"31px");
-            $(".mark-content").find("b").css('position',"relative");
-            $(".mark-content").find("b").css('top',"0");
-            $(".mark-link").hover(
-            function() {
-                $( this ).css("clip-path","circle(45%)");
-            }, function() {
-                $( this ).css("clip-path","circle(100%)"); //to remove property set it to ''
+            else{
+                $(".mark-content").find("a").css('height',"31px");
+                $(".mark-content").find("b").css('position',"relative");
+                $(".mark-content").find("b").css('top',"0");            
             }
-            );            
-         }
         }
         css_change();
          $("#checkboxOne").change(function() {
