@@ -70,7 +70,7 @@ body,
 </style>
 
 </head>
-<div class='leaflet-marker-icon mark leaflet-zoom-animated leaflet-interactive leaflet-marker-draggable open'><div class='mark-lines'></div><div class='mark-content'><span><ul class='data-values'>"+temp_li+rain_li+wind_li+bar_li+"</ul></span><a href='#' class='mark-link'><b class='icon'>&#10550;</b></a></div></div>
+
 <body>
     <div class="container">
         <ul class="ks-cboxtags">
@@ -218,6 +218,7 @@ body,
             alert("Allowed only 3. Please uncheck some of checked and check new");
         }
         });
+      
 
         var defaultBase = L.tileLayer.provider('Stamen.TonerLite').addTo(map);
 
@@ -268,8 +269,6 @@ body,
          
         // add leaflet.pm controls to the map
         map.pm.addControls(options);
-        
-      
 
     
 
