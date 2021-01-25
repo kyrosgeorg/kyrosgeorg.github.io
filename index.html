@@ -175,15 +175,6 @@
             'OSM Topo': L.tileLayer.provider('OpenTopoMap')
         };
 
-// 1) Convert LatLng into container pixel position.
-var originLatLng = [40.45,20.40]
-var originPoint = map.latLngToContainerPoint(originLatLng);
-// 2) Add the image pixel dimensions.
-// Positive x to go right (East).
-// Negative y to go up (North).
-var nextCornerPoint = originPoint.add({x: 24, y: -24});
-// 3) Convert back into LatLng.
-var nextCornerLatLng = map.containerPointToLatLng(nextCornerPoint);
 
         //add layer switch control
         L.control.groupedLayers(baseLayers).addTo(map);
