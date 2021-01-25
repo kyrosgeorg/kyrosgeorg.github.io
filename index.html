@@ -53,37 +53,17 @@
     <script type="text/javascript" src="JS/leaflet-control-credits.js"></script>
 
     <!-- Style of marker -->
-    <link rel="stylesheet" href="CSS/leaflet-marker.css" />
-
-<style>
-body {
-    padding: 0;
-    margin: 0;
-}
-
-html,
-body,
-#map {
-    height: 100%;
-}
-
-.leaflet-container .leaflet-overlay-pane svg, .leaflet-container .leaflet-marker-pane img, .leaflet-container .leaflet-shadow-pane img, .leaflet-container .leaflet-tile-pane img, .leaflet-container img.leaflet-image-layer{
-    position: absolute;
-    left: 0;
-    top: 0;
-}
-
-</style>
-
+    <link rel="stylesheet" type="text/css" href="CSS/leaflet-mark.css">
 </head>
 
 <body>
     <div class="container">
         <ul class="ks-cboxtags">
-          <li><input type="checkbox" id="checkboxOne" value="Rainbow Dash" checked autocomplete="off"><label for="checkboxOne">Temperature</label></li>
-          <li><input type="checkbox" id="checkboxTwo" value="Cotton Candy"  autocomplete="off"><label for="checkboxTwo">Rain</label></li>
-          <li><input type="checkbox" id="checkboxThree" value="Rarity"  autocomplete="off"><label for="checkboxThree">Wind</label></li>
-          <li><input type="checkbox" id="checkboxFour" value="Moondancer" autocomplete="off"><label for="checkboxFour">Bar.Pressure</label></li>
+          <li><input type="checkbox" id="checkboxOne" value="temp" checked autocomplete="off"><label for="checkboxOne">Temperature</label></li>
+          <li><input type="checkbox" id="checkboxTwo" value="rain"  autocomplete="off"><label for="checkboxTwo">Rain</label></li>
+          <li><input type="checkbox" id="checkboxThree" value="wind"  autocomplete="off"><label for="checkboxThree">Wind</label></li>
+          <li><input type="checkbox" id="checkboxFour" value="bar" autocomplete="off"><label for="checkboxFour">Bar.Pressure</label></li>
+          <li><input type="checkbox" id="checkboxFive" value="snowcover" autocomplete="off"><label for="checkboxFive">Snow Cover</label></li>
         </ul>
         
       </div>   
@@ -92,7 +72,7 @@ body,
 
     <script type="text/javascript">
         var map = L.map('map', {
-            center: [39, 24], // Balkans, Medit
+            center: [39, 24], // Honolulu, HI
             zoom: 6
         });
         
@@ -116,14 +96,14 @@ body,
 
 ).addTo(map);
 
-        function addMarker(e,tempa) {
+        function addMarker(e) {
             
            
 
             var angle = Math.floor((Math.random() * 10) + 1);
 
             if($('#checkboxOne').is(':checked')) {
-                var temp_li="<li class='temp' id='temp_id'><i class='fas fa-thermometer-half'></i>&nbsp;&nbsp;<v-r>&nbsp;&nbsp;</v-r>"+Math.floor((Math.random() * 35) + 1)+"°C</li>";
+                var temp_li="<li class='temp'><i class='fas fa-thermometer-half'></i>&nbsp;&nbsp;<v-r>&nbsp;&nbsp;</v-r>"+Math.floor((Math.random() * 35) + 1)+"°C</li>";
             }
             else{
                 var temp_li="";
@@ -146,12 +126,17 @@ body,
             else{
                 var bar_li="";
             }
-            
+            if($('#checkboxFive').is(':checked')) {
+                var snow_li="<li class='snowcover'><i class='fas fa-snowflake'></i>&nbsp;&nbsp;<v-r>&nbsp;&nbsp;</v-r>"+Math.floor((Math.random() * 10) + 1)+" cm</li>";
+            }
+            else{
+                var snow_li="";
+            }
             
             var temp = e.latlng;
             //var s = temp.substr(0,7);
             var icon = L.divIcon({
-            html: "<div class='leaflet-marker-icon mark leaflet-zoom-animated leaflet-interactive leaflet-marker-draggable open'><div class='mark-lines'></div><div class='mark-content'><span><ul class='data-values'>"+temp_li+rain_li+wind_li+bar_li+"</ul></span><a href='#' class='mark-link'><b class='icon'>&#10550;</b></a></div></div>",
+            html: "<div class='leaflet-marker-icon mark leaflet-zoom-animated leaflet-interactive leaflet-marker-draggable open'><div class='mark-lines'></div><div class='mark-content'><span><ul class='data-values'>"+temp_li+rain_li+wind_li+bar_li+snow_li+"</ul></span><a href='#' class='mark-link'><b class='icon'>&#10550;</b></a></div></div>",
             iconSize: [0, 0],
             autoPan:true,
             iconAnchor: [0, 0]
@@ -169,68 +154,9 @@ body,
         }).addTo(map);
         Marker.on('click', function(){
 	        alert("Clicked");
-         });
-       
-         function css_change(){
-            if ($(".data-values").find("li:visible").length==2){
-                $(".mark-content").find("a").css('height',"58px");
-                $(".mark-content").find("b").css('position',"relative");
-                $(".mark-content").find("b").css('top',"calc(50% - 15px)");
-                $(".mark-content").find("ul li:nth-child(2)").css('padding-top',"2px");
-            }
-            else if($(".data-values").find("li:visible").length==3){
-                $(".mark-content").find("a").css('height',"86px");
-                $(".mark-content").find("b").css('position',"relative");
-                $(".mark-content").find("b").css('top',"calc(50% - 15px)");
-            }
-            else{
-                $(".mark-content").find("a").css('height',"31px");
-                $(".mark-content").find("b").css('position',"relative");
-                $(".mark-content").find("b").css('top',"0");            
-            }
+         });                 
         }
-        css_change();
-         $("#checkboxOne").change(function() {
-            if(this.checked) {
-                $(".temp").css("display", "block");
-                css_change();
-            }else{
-                $(".temp").css("display", "none");
-                css_change();
-            }
-             });
 
-         $("#checkboxTwo").change(function() {
-            if(this.checked) {
-                $(".rain").css("display", "block");
-                css_change();
-            }else{
-                $(".rain").css("display", "none");
-                css_change();
-            }
-             });      
-         $("#checkboxThree").change(function() {
-            if(this.checked) {
-                $(".wind").css("display", "block");
-                css_change();
-            }else{
-                $(".wind").css("display", "none");
-                css_change();
-            }
-             }); 
-
-         $("#checkboxFour").change(function() {
-            if(this.checked) {
-                $(".bar").css("display", "block");
-                css_change();
-            }else{
-                $(".bar").css("display", "none");
-                css_change();
-            }
-             }); 
-            
-             
-        }
         $('input[type=checkbox]').on('change', function (e) {
         if ($('input[type=checkbox]:checked').length > 3) {
             $(this).prop('checked', false);
