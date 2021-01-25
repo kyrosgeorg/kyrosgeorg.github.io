@@ -157,41 +157,10 @@
   font-size: 18px;
 }
 
-.mark .mark-content .data-values li {
-  padding-left: 0px;
-  margin: 2px;
-  list-style-type: none;
-}
-
-.mark .mark-content .data-values li:nth-child(2), .mark .mark-content .data-values li:nth-child(3) {
-  border-top: 1px solid rgba(0, 0, 0, 0.2);
-  padding-top: 2px;
-}
-
-.mark .mark-content .data-values li .fa-thermometer-half {
-  padding-left: 10px;
-}
-
-.mark .mark-content .data-values li .fa-tint {
-  padding-left: 8px;
-}
-
-.mark .mark-content .data-values li .fa-wind {
-  padding-left: 4px;
-}
-
-.mark .mark-content .data-values li .fa-snowflake {
-  padding-left: 5px;
-}
-
-.mark .mark-content .data-values li .fa-tachometer-alt {
-  padding-left: 2px;
-}
-
-.mark .mark-content .data-values li v-r {
-  height: 100%;
-  width: 1px;
-  border-left: 1px solid gray;
+.mark .mark-content i {
+  font-style: inherit;
+  color: #000000;
+  font-size: .8em;
 }
 
 .mark .mark-link {
@@ -241,6 +210,52 @@
   width: 30px;
   min-width: 30px;
   height: 50px;
+}
+
+.mark .mark-link.p-empty .mark-link {
+  display: none;
+}
+
+/* The line */
+/* Circle under the line */
+/* This is a single-line comment */
+.data-values li {
+  padding-left: 0px;
+  margin: 2px;
+  list-style-type: none;
+}
+
+.data-values li:nth-child(2), .data-values li:nth-child(3) {
+  border-top: 1px solid rgba(0, 0, 0, 0.2);
+  padding-top: 2px;
+}
+
+.fa-thermometer-half {
+  padding-left: 10px;
+}
+
+.fa-tint {
+  padding-left: 8px;
+}
+
+.fa-wind {
+  padding-left: 4px;
+}
+
+.fa-snowflake {
+  padding-left: 5px;
+}
+
+.fa-tachometer-alt {
+  padding-left: 2px;
+}
+
+v-r {
+  height: 100%;
+  width: 1px;
+  border-left: 1px solid gray;
+  /*display: inline-block;*/
+  /*margin: 0 auto;*/
 }
 
 .container {
