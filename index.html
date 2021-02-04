@@ -54,16 +54,34 @@
 
     <!-- Style of marker -->
     <link rel="stylesheet" type="text/css" href="CSS/leaflet-mark.css">
+
+    <style>
+        .bolam_i{
+            padding-left: 3px;
+            padding-right: 9px;
+        }
+        .icon_m{
+            background-color: rgba(255, 238, 127,0.4);
+        }
+        .icon_i{
+            padding-left: 3px;
+            padding-right: 17px;            
+        }
+        .hermes_i{
+            padding-left: 3px;
+        }
+        
+    </style>
 </head>
 
 <body>
     <div class="container">
         <ul class="ks-cboxtags">
-          <li><input type="checkbox" id="checkboxOne" value="temp" checked autocomplete="off"><label for="checkboxOne">Temperature</label></li>
-          <li><input type="checkbox" id="checkboxTwo" value="rain"  autocomplete="off"><label for="checkboxTwo">Rain</label></li>
-          <li><input type="checkbox" id="checkboxThree" value="wind"  autocomplete="off"><label for="checkboxThree">Wind</label></li>
-          <li><input type="checkbox" id="checkboxFour" value="bar" autocomplete="off"><label for="checkboxFour">Bar.Pressure</label></li>
-          <li><input type="checkbox" id="checkboxFive" value="snowcover" autocomplete="off"><label for="checkboxFive">Snow Cover</label></li>
+          <li><input type="checkbox" id="checkboxOne" value="bolam" checked autocomplete="off"><label for="checkboxOne">Bolam</label></li>
+          <li><input type="checkbox" id="checkboxTwo" value="icon"  autocomplete="off"><label for="checkboxTwo">ICON</label></li>
+          <li><input type="checkbox" id="checkboxThree" value="hermes"  autocomplete="off"><label for="checkboxThree">Hermes</label></li>
+          <!--<li><input type="checkbox" id="checkboxFour" value="bar" autocomplete="off"><label for="checkboxFour">Bar.Pressure</label></li>-->
+          <!--<li><input type="checkbox" id="checkboxFive" value="snowcover" autocomplete="off"><label for="checkboxFive">Snow Cover</label></li>-->
         </ul>
         
       </div>   
@@ -72,7 +90,7 @@
 
     <script type="text/javascript">
         var map = L.map('map', {
-            center: [38.6, 24], // Greece
+            center: [38.6, 24], // Honolulu, HI
             zoom: 7
         });
         
@@ -103,40 +121,29 @@
             var angle = Math.floor((Math.random() * 10) + 1);
 
             if($('#checkboxOne').is(':checked')) {
-                var temp_li="<li class='temp'><i class='fas fa-thermometer-half'></i>&nbsp;&nbsp;<v-r>&nbsp;&nbsp;</v-r>"+Math.floor((Math.random() * 35) + 1)+"°C</li>";
+                var temp_li="<li class='bolam_m'><i class='bolam_i'>Bolam</i>&nbsp;&nbsp;<v-r>&nbsp;&nbsp;</v-r>"+Math.floor((Math.random() * 35) + 1)+"°C</li>";
             }
             else{
                 var temp_li="";
             }
             if($('#checkboxTwo').is(':checked')) {
-                var rain_li="<li class='rain'><i class='fas fa-tint'></i>&nbsp;&nbsp;<v-r>&nbsp;&nbsp;</v-r>"+Math.floor((Math.random() * 10) + 1)+" mm</li>";
+                var rain_li="<li class='icon_m'><i class='icon_i'>ICON</i>&nbsp;&nbsp;<v-r>&nbsp;&nbsp;</v-r>"+Math.floor((Math.random() * 35) + 1)+"°C</li>";
             }
             else{
                 var rain_li="";
             }
             if($('#checkboxThree').is(':checked')) {
-                var wind_li="<li class='wind'><i class='fas fa-wind'></i>&nbsp;&nbsp;<v-r>&nbsp;&nbsp;</v-r><i class='fas fa-location-arrow' style='transform: rotate("+Math.floor((Math.random() * 1000) + 10)+"deg)'></i>&nbsp;"+Math.floor((Math.random() * 100) + 1)+" km/h</li>";
+                var wind_li="<li class='hermes_m'><i class='hermes_i'>Hermes</i>&nbsp;&nbsp;<v-r>&nbsp;&nbsp;</v-r>"+Math.floor((Math.random() * 35) + 1)+"°C</li>";
             }
             else{
                 var wind_li="";
             }
-            if($('#checkboxFour').is(':checked')) {
-                var bar_li="<li class='bar'><i class='fas fa-tachometer-alt'></i>&nbsp;&nbsp;<v-r>&nbsp;&nbsp;</v-r>"+Math.floor((Math.random() * 1000) + 10)+" hPa</li>";
-            }
-            else{
-                var bar_li="";
-            }
-            if($('#checkboxFive').is(':checked')) {
-                var snow_li="<li class='snowcover'><i class='fas fa-snowflake'></i>&nbsp;&nbsp;<v-r>&nbsp;&nbsp;</v-r>"+Math.floor((Math.random() * 10) + 1)+" cm</li>";
-            }
-            else{
-                var snow_li="";
-            }
+          
             
             var temp = e.latlng;
             //var s = temp.substr(0,7);
             var icon = L.divIcon({
-            html: "<div class='leaflet-marker-icon mark leaflet-zoom-animated leaflet-interactive leaflet-marker-draggable open'><div class='mark-lines'></div><div class='mark-content'><span><ul class='data-values'>"+temp_li+rain_li+wind_li+bar_li+snow_li+"</ul></span><a href='#' class='mark-link'><b class='icon'>&#10550;</b></a></div></div>",
+            html: "<div class='leaflet-marker-icon mark leaflet-zoom-animated leaflet-interactive leaflet-marker-draggable open'><div class='mark-lines'></div><div class='mark-content'><span><ul class='data-values'>"+temp_li+rain_li+wind_li+"</ul></span><a href='#' class='mark-link'><b class='icon'>&#10550;</b></a></div></div>",
             iconSize: [0, 0],
             autoPan:true,
             iconAnchor: [0, 0]
@@ -175,6 +182,15 @@
             'OSM Topo': L.tileLayer.provider('OpenTopoMap')
         };
 
+// 1) Convert LatLng into container pixel position.
+var originLatLng = [40.45,20.40]
+var originPoint = map.latLngToContainerPoint(originLatLng);
+// 2) Add the image pixel dimensions.
+// Positive x to go right (East).
+// Negative y to go up (North).
+var nextCornerPoint = originPoint.add({x: 24, y: -24});
+// 3) Convert back into LatLng.
+var nextCornerLatLng = map.containerPointToLatLng(nextCornerPoint);
 
         //add layer switch control
         L.control.groupedLayers(baseLayers).addTo(map);
