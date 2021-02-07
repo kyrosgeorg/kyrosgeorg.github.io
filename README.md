@@ -2,6 +2,8 @@
 
 URL for this demo at https://kyrosgeorg.github.io/
 
+URL for this charts demo at https://kyrosgeorg.github.io/charts (soon)
+
 A simple leaflet map example from blog at https://opengislab.com/
 
 The actual blog post that accompanies this is here: https://opengislab.com/blog/2018/2/4/creating-simple-leaflet-web-map
