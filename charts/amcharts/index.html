@@ -31,6 +31,10 @@
       height: 500px;
       max-width: 100%;
       }
+      .badge-secondary:hover{
+      background-color: rgb(180, 180, 180);
+      cursor: pointer;
+    }
     </style>
 <script>
   am4core.ready(function() {
@@ -47,9 +51,9 @@
   // Create axes
   var dateAxis = chart.xAxes.push(new am4charts.DateAxis());
   var valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
-  
-  for (var i = 0; i < 10; i++) {
-    createSeries("value" + i, "Series #" + i);
+  var models = ["bolam","icon","hermes","arpege"]
+  for (var i = 0; i < 4; i++) {
+    createSeries("value" + i, models[i]);
   }
   
   // Create series
@@ -77,9 +81,9 @@
     });
   
     var data = [];
-    var value = Math.round(Math.random() * 100) + 100;
+    var value = Math.round(Math.random() *20) + 2;
     for (var i = 1; i < 100; i++) {
-      value += Math.round((Math.random() < 0.5 ? 1 : -1) * Math.random() * 30 + i / 5);
+      value += Math.round((Math.random() < 0.5 ? 1 : -1) * Math.random() * 3 );
       var dataItem = { date: new Date(2018, 0, i) };
       dataItem["value" + s] = value;
       data.push(dataItem);
@@ -180,7 +184,16 @@
             </div>
           </center>
 
-    
+          <div class="card-footer text-center" >
+            <a href="https://www.amcharts.com/" target="_blank"><h4><span class="badge badge-secondary">AmCharts Free License</span></a>
+            </h4>
+            <h5>
+              <span class="badge badge-danger">widely-known</span>
+              <span class="badge badge-success">json</span>
+              <span class="badge badge-success">csv</span>
+              <span class="badge badge-success">ajax-calls</span>
+          </h5>
+          </div> 
         <!-- /.row -->
 
       </div>

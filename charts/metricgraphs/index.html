@@ -16,7 +16,6 @@
   <link href="https://cdnjs.cloudflare.com/ajax/libs/metrics-graphics/3.0-alpha3/metricsgraphics.css"></script>
   <link href="https://cdnjs.cloudflare.com/ajax/libs/metrics-graphics/3.0-alpha3/metricsgraphics.min.css"></script>
   <link href="https://cdnjs.cloudflare.com/ajax/libs/metrics-graphics/3.0-alpha3/metricsgraphics.min.css.map"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.3/jquery.min.js"></script>
   <script src="http://d3js.org/d3.v6.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/metrics-graphics/3.0-alpha3/metricsgraphics.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/metrics-graphics/3.0-alpha3/metricsgraphics.js"></script>
@@ -33,6 +32,11 @@
         top: 40px;
         bottom: 10px;
     }    
+    .badge-secondary:hover{
+      background-color: rgb(180, 180, 180);
+      cursor: pointer;
+    }
+    
     </style>
 </head>
 
@@ -78,7 +82,15 @@
               <div id="chart"></div>  
             </div>
           </center>      <!-- /.row -->
-
+          <div class="card-footer text-center" >
+          <a href="https://metricsgraphicsjs.org" target="_blank"><h4><span class="badge badge-secondary">MetricGraphics Open Source</span></a>
+          </h4>
+          <h5>
+            <span class="badge badge-danger">d3.js</span>
+            <span class="badge badge-success">json</span>
+            <span class="badge badge-success">data-array</span>
+        </h5>
+        </div> 
       </div>
 
     </div>
