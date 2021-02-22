@@ -146,10 +146,11 @@
 
 .mark .mark-content span {
   display: inline-block;
-  padding: 0 5px 0 0px;
-  margin-left: -41px;
-  margin-bottom: -11px;
-  margin-top: -11px;
+  padding: 0 11px 0 0px;
+  margin-left: -38px;
+  margin-bottom: -13px;
+  margin-top: -12px;
+
 }
 
 .mark .mark-content span big {
@@ -223,9 +224,10 @@
   padding-left: 0px;
   margin: 2px;
   list-style-type: none;
+  font-size: 12px;
 }
 
-.data-values li:nth-child(2), .data-values li:nth-child(3) {
+.data-values li:nth-child(2), .data-values li:nth-child(3) , .data-values li:nth-child(4) {
   border-top: 1px solid rgba(0, 0, 0, 0.2);
   padding-top: 2px;
 }
