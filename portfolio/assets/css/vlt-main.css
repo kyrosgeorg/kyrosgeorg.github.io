@@ -1083,15 +1083,16 @@ select:focus::-webkit-input-placeholder
     display: block;
 
     max-width: none; 
-    max-height: 24px;
+    max-height: 45px;
 }
 .is-light .vlt-navbar .vlt-navbar-logo img.black
 {
-    display: none;
+    display: block;
+
 }
 .is-dark .vlt-navbar .vlt-navbar-logo img.white
 {
-    display: none;
+    display: block;
 }
 .vlt-navbar .vlt-navbar-logo:hover
 {
