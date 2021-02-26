@@ -163,7 +163,6 @@
 {
     font-size: 1.125rem;
     font-weight: 700;
-
     letter-spacing: .01em;
 }
 
@@ -1903,11 +1902,6 @@ select:focus::-webkit-input-placeholder
     display: -ms-flexbox;
     display:         flex;
 
-    -webkit-transform: rotate(-90deg) translate3d(50%, 0, 0);
-            transform: rotate(-90deg) translate3d(50%, 0, 0);
-    -webkit-transform-origin: 100% 100%;
-        -ms-transform-origin: 100% 100%;
-            transform-origin: 100% 100%;
 
     color: #101010;
 }
