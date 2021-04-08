@@ -137,7 +137,7 @@
                       var thead = "<thead><th>Μήνας - Έτος</th><th>Τιμή (°C)</th></thead>"
                       $.ajax({
                           url: 'climate?area='+area+'&month='+month_reg,
-                          type: 'POST',
+                          type: 'GET',
                           dataType: 'JSON',
                           success: function(response){
                               $("#test").empty();
