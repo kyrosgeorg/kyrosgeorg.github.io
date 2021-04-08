@@ -1,0 +1,7 @@
+A06   Crete   1.1
+A01   Northern Greece   1.7
+A04   Central Greece   1.5
+A05   Peloponnisos   1.7
+A02   West Greece & Ionian Islands   1.2
+A07   Dodecanese & Aegean Islands   0.7
+A03   Thessaly   1.3

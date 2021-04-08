@@ -1,0 +1,7 @@
+A06	Crete	 2.3	 1.06	 	 	 	 	 	 	 	 	 	 
+A01	Northern Greece	 2.5	 1.74375	 	 	 	 	 	 	 	 	 	 
+A04	Central Greece	 2.1375	 1.5375	 	 	 	 	 	 	 	 	 	 
+A05	Peloponnisos	 1.8	 1.7285714285714	 	 	 	 	 	 	 	 	 	 
+A03	West Greece & Ionian Islands	 0.91666666666667	 1.1666666666667	 	 	 	 	 	 	 	 	 	 
+A07	Dodecanese & Aegean Islands	 1.95	 1.5375	 	 	 	 	 	 	 	 	 	 
+A02	Thessaly	 2.425	 1.06	 	 	 	 	 	 	 	 	 	 
