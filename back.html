@@ -111,7 +111,7 @@
             return '<svg width="120px" height="55px" viewBox="0 0 120 55" font-family="Arial" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><defs><linearGradient id="MyGradient" x1="0" x2="1" y1="0" y2="1"><stop offset="20%"  stop-color="white" stop-opacity="0.3"/><stop offset="50%"  stop-color="white" stop-opacity="0"/><stop offset="80%" stop-color="#555" stop-opacity="0.2"/></linearGradient><linearGradient id="MyGradient_back" x1="0" x2="0.5" y1="0" y2="1"><stop offset="0%"  stop-color="black" stop-opacity="0"/><stop offset="100%" stop-color="black" stop-opacity="0.4"/></linearGradient><path id="mark2" d="M 0,-1 -50,-1 A 5,5 0 0,1 -55,-6 L -55,-20 A 5,5 0 0,1 -50,-25 L 50,-25 A 5,5 0 0,1 55,-20 L 55,-6 A 5,5 0 0,1 50,-1 z" /><circle id="c1" cx="49" cy="-36" r="10" /></defs><g transform="translate(60,47)" ><circle cx="0" cy="1" r="2" fill="#555"/><path d="M 2,-4 2,-6 A 7,7 0 1,1 -2,-6 L -2,-4 A 5,5 0 1,0 2,-4 z" fill="#555" stroke="none" /><path d="M 0,0 v -20" stroke="#555" stroke-width="2" /><use xlink:href="#mark2" x="0" y="-14" stroke="#555" fill="#fff" stroke-width="2" /><text text-anchor="end" dominant-baseline="middle"  font-size="13px" transform="translate(-20,-26)" fill="#555" stroke="none"><tspan>T:</tspan></text><text text-anchor="start" dominant-baseline="middle" font-size="13px" transform="translate(-16,-26)" fill="#555" stroke="none"><tspan>'+txt+'</tspan></text></g></svg>';      
         }
        var PAR ='TEMP';
-       L.imageOverlay('Images/EU/'+PAR+'/t_2.png',[[18.4139060, -29.7518311], [64.7923610, 57.6284481]] ,
+       L.imageOverlay('Images/EU'+PAR+'.png',[[18.4139060, -29.7518311], [64.7923610, 57.6284481]] ,
         
         {
             opacity:0.7,
@@ -125,14 +125,35 @@
             var angle = Math.floor((Math.random() * 10) + 1);
 
             if($('#checkboxOne').is(':checked')) {
-                
+                var temp_li="<li class='bolam_m'><i class='bolam_i'>Bolam</i>&nbsp;&nbsp;<v-r>&nbsp;&nbsp;</v-r>"+Math.floor((Math.random() * 35) + 1)+"°C</li>";
             }
-            
+            else{
+                var temp_li="";
+            }
+            if($('#checkboxTwo').is(':checked')) {
+                var rain_li="<li class='icon_m'><i class='icon_i'>ICON</i>&nbsp;&nbsp;<v-r>&nbsp;&nbsp;</v-r>"+Math.floor((Math.random() * 35) + 1)+"°C</li>";
+            }
+            else{
+                var rain_li="";
+            }
+            if($('#checkboxThree').is(':checked')) {
+                var wind_li="<li class='hermes_m'><i class='hermes_i'>Hermes</i>&nbsp;&nbsp;<v-r>&nbsp;&nbsp;</v-r>"+Math.floor((Math.random() * 35) + 1)+"°C</li>";
+            }
+            else{
+                var wind_li="";
+            }
+            if($('#checkboxFour').is(':checked')) {
+                var arp_li="<li class='arpege_m'><i class='arpege_i'>Arpege</i>&nbsp;&nbsp;<v-r>&nbsp;&nbsp;</v-r>"+Math.floor((Math.random() * 35) + 1)+"°C</li>";
+            }
+            else{
+                var arp_li="";
+            }
+          
             
             var temp = e.latlng;
             //var s = temp.substr(0,7);
             var icon = L.divIcon({
-            html: "<div class='leaflet-marker-icon mark leaflet-zoom-animated leaflet-interactive leaflet-marker-draggable open'><div class='mark-lines'></div><div class='mark-content'><span><ul class='data-values'>"+"10"+"</ul></span><a href='#' class='mark-link' onclick='click1()';><b class='icon'>&#10550;</b></a></div></div>",
+            html: "<div class='leaflet-marker-icon mark leaflet-zoom-animated leaflet-interactive leaflet-marker-draggable open'><div class='mark-lines'></div><div class='mark-content'><span><ul class='data-values'>"+temp_li+rain_li+wind_li+arp_li+"</ul></span><a href='#' class='mark-link' onclick='click1()';><b class='icon'>&#10550;</b></a></div></div>",
             iconSize: [0, 0],
             autoPan:true,
             iconAnchor: [12, 0]
@@ -151,6 +172,55 @@
             zIndexOffset: 9999
         }).addTo(map);
         
+        $(document).ready(function(){
+            $(".data-values li:nth-child(1)").hover(function() {
+            var val = $(".data-values li:nth-child(1)").text();
+            var s = val.substr(0,val.indexOf("°C") - 5).toLowerCase().trim();
+            $('.leaflet-image-layer').attr("src","Images/"+s+".png");
+            $(".data-values li:nth-child(1)").css({"background-color": "rgba(255, 238, 127,0.4)"});
+            $(".data-values li:nth-child(2)").css({"background-color": "white"});
+            $(".data-values li:nth-child(3)").css({"background-color": "white"});
+            $(".data-values li:nth-child(4)").css({"background-color": "white"});
+            }, function() {
+        });
+    });
+    $(document).ready(function(){
+            $(".data-values li:nth-child(2)").hover(function() {
+            var val = $(".data-values li:nth-child(2)").text();
+            var s = val.substr(0,val.indexOf("°C") - 3).toLowerCase().trim();
+            $('.leaflet-image-layer').attr("src","Images/"+s+".png");
+            $(".data-values li:nth-child(1)").css({"background-color": "white"});
+            $(".data-values li:nth-child(2)").css({"background-color": "rgba(255, 238, 127,0.4)"});
+            $(".data-values li:nth-child(3)").css({"background-color": "white"});
+            $(".data-values li:nth-child(4)").css({"background-color": "white"});
+            }, function() {
+        });
+    });
+    $(document).ready(function(){
+            $(".data-values li:nth-child(3)").hover(function() {
+            var val = $(".data-values li:nth-child(3)").text();
+            var s = val.substr(0,val.indexOf("°C") - 3).toLowerCase().trim();
+            $('.leaflet-image-layer').attr("src","Images/"+s+".png");
+            $(".data-values li:nth-child(1)").css({"background-color": "white"});
+            $(".data-values li:nth-child(2)").css({"background-color": "white"});
+            $(".data-values li:nth-child(3)").css({"background-color": "rgba(255, 238, 127,0.4)"});
+            $(".data-values li:nth-child(4)").css({"background-color": "white"});
+            }, function() {
+        });
+    });
+    $(document).ready(function(){
+            $(".data-values li:nth-child(4)").hover(function() {
+            var val = $(".data-values li:nth-child(4)").text();
+            var s = val.substr(0,val.indexOf("°C") - 3).toLowerCase().trim();
+            $('.leaflet-image-layer').attr("src","Images/"+s+".png");
+            $(".data-values li:nth-child(1)").css({"background-color": "white"});
+            $(".data-values li:nth-child(2)").css({"background-color": "white"});
+            $(".data-values li:nth-child(3)").css({"background-color": "white"});
+            $(".data-values li:nth-child(4)").css({"background-color": "rgba(255, 238, 127,0.4)"});
+            }, function() {
+        });
+    });
+
 
         Marker.on('click', function(){
 	        alert("Clicked");
