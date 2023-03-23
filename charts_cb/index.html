@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+  <script src="https://code.highcharts.com/highcharts.js"></script>
+  <script src="https://code.highcharts.com/modules/data.js"></script>
+  <script src="https://code.highcharts.com/modules/exporting.js"></script>
+  <script src="https://code.highcharts.com/modules/accessibility.js"></script>
+  <title>Graphs Copernicus t2m Anomalies • Climatebook</title>
+</head>
+
+<body>
+  <!-- Remove the styles applied to the following <div> element to position the container at (0,0) in the application. -->
+  <div class="row" style="padding: 50px; margin-top: 25px;margin-left:0px;margin-right:0px">
+    <div class="col-md-6">
+      <div id="container" style="max-width: 1000px;height: 800px"></div>
+    </div>
+
+    <div class="col-md-6">
+      <div id="container1" style="max-width: 1000px;height: 800px"></div>
+    </div>
+  </div>
+
+<script>
+Highcharts.chart("container", {
+    
+    chart: {
+            type: 'column',
+            zoomType: 'x',
+            panning: true,
+            panKey: 'shift',
+            style: {
+            fontFamily: 'Tahoma'
+        }
+
+    },
+    series: [{
+        type: "column",
+        name: '1981-2010',
+        color: '#ff7f7f',
+		negativeColor: '#2b60ff',
+        borderWidth:0.1,
+        pointPadding: -0.1,
+        grouping: false,
+        borderColor:'black',
+        
+    },{
+        type: "column",
+        name: '1991-2020',
+        color: '#ff0000',
+		negativeColor: '#0000ff',
+        borderWidth:0.1,        
+        grouping: false,
+        pointPadding: -0.1,
+        borderColor:'black',
+        
+    },{type: 'scatter',
+    data: [
+      [2, 0],
+      [5, 0]
+    ],
+    marker: {
+      symbol: 'triangle'
+    },
+    color: 'red',
+    showInLegend: true
+    }
+        
+        ],
+        
+        title: {
+            text: "Monthly temperature deviation from average [1981-2010]  [1991-2020]",
+            style: {
+                        fontSize: '30px',
+                        color: '#303030',
+                        fontWeight: 'bold'
+                    }
+        },
+        legend: {
+            enabled: true
+        },
+        subtitle: {
+            text: "Region: Global - Data: ERA5 - C3S/ECMWF"
+        },
+        data: {
+            csvURL:
+        "https://gist.githubusercontent.com/kyrosgeorg/07ad6e673d3a3d0e7c642c5fcb478290/raw/bbad01b9f646199115a0e59878735a5711618475/cop_t2m_global.csv"
+        },
+
+        tooltip: {
+            shared: true,
+            crosshairs: true,
+            xDateFormat: '%Y-%m',
+            pointFormat: "{point.graphics} {series.name}: <b>{point.y:.2f}</b><br>",
+        },
+        
+        xAxis: {
+            title: {
+            text: 'Date',
+            style:{
+                fontWeight: 'bold',
+                fontSize: '15px'
+            },
+            type: "datetime",
+            plotBands: [{ // visualize the weekend
+                from: Date.UTC(2010, 0, 2),
+                to: Date.UTC(2015, 0, 2),
+                color: '#f8f8f8',
+                label: {
+                    text: '<em>FORECAST</em>',
+                    style: {
+                    color: '#057aff',
+                    fontWeight: 'bold'
+                    },
+                    y: 15
+                }
+                }],
+                
+
+        
+        }
+        },
+        yAxis: {
+            title: {
+            text: 'Temperature [C]',
+            style:{
+                fontWeight: 'bold',
+                fontSize: '15px'
+            },
+
+            },
+            max: 1,
+            min: -0.4,
+            minorGridLineWidth:1000005,
+            "plotLines": [
+      {
+        "color": "black",
+        "width": 1.2,
+        "value": 0,
+        "zIndex":5, 
+        "label": {
+          "text": "",
+          "style": {
+            "color": "black"
+          }
+        }
+    }
+        ]
+            
+        },
+
+        
+
+
+
+});
+
+Highcharts.chart("container1", {
+    
+    chart: {
+            type: 'column',
+            zoomType: 'x',
+            panning: true,
+            panKey: 'shift',
+            style: {
+            fontFamily: 'Tahoma'
+        }
+
+    },
+    series: [{
+        type: "column",
+        name: '1981-2010',
+        color: '#ff7f7f',
+		negativeColor: '#2b60ff',
+        borderWidth:0.1,
+        pointPadding: -0.1,
+        grouping: false,
+        borderColor:'black',
+        
+    },{
+        type: "column",
+        name: '1991-2020',
+        color: '#ff0000',
+		negativeColor: '#0000ff',
+        borderWidth:0.1,        
+        grouping: false,
+        pointPadding: -0.1,
+        borderColor:'black',
+        
+    },{type: 'scatter',
+    data: [
+      [2, 0],
+      [5, 0]
+    ],
+    marker: {
+      symbol: 'triangle'
+    },
+    color: 'red',
+    showInLegend: true
+    }
+        
+        ],
+        
+        title: {
+            text: "Monthly temperature deviation from average [1981-2010]  [1991-2020]",
+            style: {
+                        fontSize: '30px',
+                        color: '#303030',
+                        fontWeight: 'bold'
+                    }
+        },
+        legend: {
+            enabled: true
+        },
+        subtitle: {
+            text: "Region: Europe - Data: ERA5 - C3S/ECMWF"
+        },
+        data: {
+            csvURL:
+        "https://gist.githubusercontent.com/kyrosgeorg/e0497eb6dcdd91a7108a7feea6f6d0ff/raw/e457b00b013a5631446e300aa2408e33aa787077/eu_t2m_cop.csv"
+        },
+
+        tooltip: {
+            shared: true,
+            crosshairs: true,
+            xDateFormat: '%Y-%m',
+            pointFormat: "{point.graphics} {series.name}: <b>{point.y:.2f}</b><br>",
+        },
+        
+        xAxis: {
+            title: {
+            text: 'Date',
+            style:{
+                fontWeight: 'bold',
+                fontSize: '15px'
+            },
+            type: "datetime",
+            plotBands: [{ // visualize the weekend
+                from: Date.UTC(2010, 0, 2),
+                to: Date.UTC(2015, 0, 2),
+                color: '#f8f8f8',
+                label: {
+                    text: '<em>FORECAST</em>',
+                    style: {
+                    color: '#057aff',
+                    fontWeight: 'bold'
+                    },
+                    y: 15
+                }
+                }],
+                
+
+        
+        }
+        },
+        yAxis: {
+            title: {
+            text: 'Temperature [C]',
+            style:{
+                fontWeight: 'bold',
+                fontSize: '15px'
+            },
+
+            },
+            max: 4,
+            min: -4,
+            minorGridLineWidth:1000005,
+            "plotLines": [
+      {
+        "color": "black",
+        "width": 1.2,
+        "value": 0,
+        "zIndex":5, 
+        "label": {
+          "text": "",
+          "style": {
+            "color": "black"
+          }
+        }
+    }
+        ]
+            
+        },
+
+        
+
+
+
+});
+</script>
