@@ -1,0 +1,715 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <title>Firescope - meteo.gr</title>
+
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.3.7/paper/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css">
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="https://www.amcharts.com/lib/3/amcharts.js"></script>
+    <script type="text/javascript" src="https://www.amcharts.com/lib/3/serial.js"></script>
+    <script src="https://www.amcharts.com/lib/3/plugins/tools/bestFitLine/bestFitLine.min.js"></script>
+    <script type="text/javascript" src="https://www.amcharts.com/lib/3/plugins/export/export.min.js"></script>
+    <link rel="stylesheet" href="https://www.amcharts.com/lib/3/plugins/export/export.css">
+
+    <!-- Load Leaflet: http://leafletjs.com/ -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.2.0/dist/leaflet.css" integrity="sha512-M2wvCLH6DSRazYeZRIm1JnYyh22purTM+FDB5CsyxtQJYeKq83arPe5wgbNmcFXGqiSH2XR8dT/fJISVA1r/zQ==" crossorigin="" />
+    <script src="https://unpkg.com/leaflet@1.2.0/dist/leaflet.js" integrity="sha512-lInM/apFSqyy1o6s89K4iQUKg6ppXEgsVxT35HbzUupEVRh2Eu9Wdl4tHj7dZO0s1uvplcYGmt3498TtHq+log==" crossorigin=""></script>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <!-- Esri Leaflet Plugin: https://esri.github.io/esri-leaflet/ -->
+    <script src="https://unpkg.com/esri-leaflet@2.1.3/dist/esri-leaflet.js" integrity="sha512-pijLQd2FbV/7+Jwa86Mk3ACxnasfIMzJRrIlVQsuPKPCfUBCDMDUoLiBQRg7dAQY6D1rkmCcR8286hVTn/wlIg==" crossorigin=""></script>
+
+    <!-- ESRI Renderer Plugin: https://github.com/Esri/esri-leaflet-renderers -->
+    <!-- Renders feature layer using default symbology as defined by ArcGIS REST service -->
+    <!-- Currently doesn't work with ESRI cluster plugin -->
+    <script src="https://unpkg.com/esri-leaflet-renderers@2.0.6/dist/esri-leaflet-renderers.js" integrity="sha512-mhpdD3igvv7A/84hueuHzV0NIKFHmp2IvWnY5tIdtAHkHF36yySdstEVI11JZCmSY4TCvOkgEoW+zcV/rUfo0A==" crossorigin=""></script>
+
+    <!-- Load Leaflet Basemap Providers: https://github.com/leaflet-extras/leaflet-providers -->
+    <!-- Modified to include USGS TNM web services -->
+
+	<script src="static/js/form.js"></script>
+	<script src="static/js/leaflet-providers.js"></script>
+
+
+    <!-- 2.5D OSM Buildings Classic: https://github.com/kekscom/osmbuildings -->
+    <script src="https://cdn.osmbuildings.org/OSMBuildings-Leaflet.js"></script>
+
+    <!-- Load Font Awesome icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css">
+
+
+
+    <!-- Grouped Layer Plugin: https://github.com/ismyrnow/leaflet-groupedlayercontrol  -->
+	<link rel="stylesheet" type="text/css" href="static/css/leaflet.groupedlayercontrol.min.css">
+	<script src="static/js/leaflet.groupedlayercontrol.min.js"></script>
+
+    <!-- Overview mini map Plugin: https://github.com/Norkart/Leaflet-MiniMap -->
+	<link rel="stylesheet" type="text/css" href="static/css/Control.MiniMap.css">
+	<script src="static/js/Control.MiniMap.min.js"></script>
+
+
+    <!-- Leaflet Drawing Plugin: https://github.com/codeofsumit/leaflet.pm -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet.pm@latest/dist/leaflet.pm.css">
+    <!--<script src="https://unpkg.com/leaflet.pm@latest/dist/leaflet.pm.min.js"></script>
+
+    <!-- Leaflet WMS Plugin: https://github.com/heigeo/leaflet.wms -->
+	<script src="static/js/leaflet.wms.js"></script>
+
+    <!-- Logo Credit Plugin: https://github.com/gregallensworth/L.Control.Credits -->
+	<link rel="stylesheet" type="text/css" href="static/css/leaflet-control-credits.css">
+	<link rel="stylesheet" type="text/css" href="static/css/L.Control.Sidebar.css">
+
+	<script src="static/js/leaflet-control-credits.js"></script>
+	<script src="static/js/L.Control.Sidebar.js"></script>
+
+    <link rel="icon" href="static/Images/meteo.png">
+    <!-- Style of marker -->
+    <!--
+	<link rel="stylesheet" type="text/css" href="static/css/leaflet-mark.css">
+    Style of marker -->
+<style>
+.bolam_i{
+    padding-left: 3px;
+    padding-right: 6px;
+}
+
+.icon_i{
+    padding-left: 3px;
+    padding-right: 12px;
+}
+.hermes_i{
+    padding-left: 2px;
+}
+.arpege_i{
+    padding-left: 2px;
+    padding-right: 3px;
+}
+
+.modal {
+	position: fixed;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	margin: auto;
+	box-sizing: border-box;
+	z-index: 99999999;
+}
+.modal-open .modal {
+    overflow-x: hidden;
+    overflow-y: hidden;
+}
+.leaflet-sidebar{
+    z-index: 1400;
+    width:600px;
+    height:400px;
+}
+@-webkit-keyframes pulse {
+	0% {
+		-webkit-transform: scale(0.95);
+		transform: scale(0.95);
+		-webkit-box-shadow: 0 0 0 0 rgba(0, 0, 0, 0.7);
+		box-shadow: 0 0 0 0 rgba(0, 0, 0, 0.7);
+	}
+	70% {
+		-webkit-transform: scale(1);
+		transform: scale(1);
+		-webkit-box-shadow: 0 0 0 10px rgba(0, 0, 0, 0);
+		box-shadow: 0 0 0 10px rgba(0, 0, 0, 0);
+	}
+	100% {
+		-webkit-transform: scale(0.95);
+		transform: scale(0.95);
+		-webkit-box-shadow: 0 0 0 0 rgba(0, 0, 0, 0);
+		box-shadow: 0 0 0 0 rgba(0, 0, 0, 0);
+	}
+}
+
+@keyframes pulse {
+0% {
+	-webkit-transform: scale(0.95);
+	transform: scale(0.95);
+	-webkit-box-shadow: 0 0 0 0 rgba(0, 0, 0, 0.7);
+	box-shadow: 0 0 0 0 rgba(0, 0, 0, 0.7);
+}
+70% {
+	-webkit-transform: scale(1);
+	transform: scale(1);
+	-webkit-box-shadow: 0 0 0 10px rgba(0, 0, 0, 0);
+	box-shadow: 0 0 0 10px rgba(0, 0, 0, 0);
+}
+100% {
+	-webkit-transform: scale(0.95);
+	transform: scale(0.95);
+	-webkit-box-shadow: 0 0 0 0 rgba(0, 0, 0, 0);
+	box-shadow: 0 0 0 0 rgba(0, 0, 0, 0);
+}
+}
+
+@-webkit-keyframes grow {
+	0% {
+		height: 145px;
+		bottom: 120px;
+	}
+	100% {
+		height: 145px;
+		bottom: 0px;
+	}
+}
+
+@keyframes grow {
+	0% {
+		height: 145px;
+		bottom: 120px;
+	}
+	100% {
+		height: 145px;
+		bottom: 0px;
+	}
+}
+
+.mark {transition: .3s opacity 0s;-webkit-transition: .3s opacity 0s;font-size: 15px;font-weight: bold;animation: fadein-full 2s;-webkit-animation: fadein-full 1s;opacity: 0;background-color: #ffe0b200;}
+.mark.open {opacity: 1;}
+.mark .mark-lines {left: -4px;position: relative;border-left: 2px solid white;height: 145px;border: 1px solid grey;cursor: move;-webkit-box-shadow: 0 0 1px 0 black;box-shadow: 0 0 1px 0 black;-webkit-animation: grow .2s linear;animation: grow .2s linear;}
+.mark .mark-lines::after {display: block;position: absolute;left: -6px;top: 140px;background-color: #ffee7f;width: 12px;height: 12px;border-radius: 2px;border: 0.6px solid black;border-radius: 50%;-webkit-box-shadow: 0 0 0 2px black;box-shadow: 0 0 0 2px black;margin: 0px;-webkit-animation: pulse 1s infinite;animation: pulse 1s infinite;content: "";}
+.mark .mark-lines::before {display: block;position: absolute;content: ' ';left: -10px;right: 0;width: 20px;height: 140px;}
+.mark .mark-content {position: absolute;left: 2px;top: 0;cursor: move;white-space: nowrap;color: black;background-color: white;border-top-right-radius: 20px;border-bottom-right-radius: 20px;-webkit-box-shadow: 0 0 9px 0 black;box-shadow: 0 0 9px 0 black;}
+.mark .mark-content .p-title {position: absolute;top: -18px;left: 0;color: #000000;text-shadow: 0 0 4px white;}
+.mark .mark-content a {color: black;}
+.mark .mark-content span {display: inline-block;padding: 0 5px 0 0px;margin-left: -41px;margin-bottom: -8px;margin-top: 0px;}
+.mark .mark-content span big {display: block;font-size: 18px;}
+.mark .mark-content i {font-style: inherit;color: #000000;font-size: .8em;}
+.mark .mark-link {transition: .3s opacity 0s;-webkit-transition: .3s opacity 0s;cursor: pointer;display: block;position: absolute;font-size: 18px;left: -19px;width: 28px;height: 100%;margin-left: -0.7em;bottom: 0px;background-color: #ffee7f;-webkit-box-shadow: 0 0 4px 0 black;box-shadow: 0 0 4px 0 black;cursor: pointer;text-align: center;border-top-left-radius: 50%;border-bottom-left-radius: 50%;cursor: pointer;z-index: 99999;text-decoration: none;}
+.mark .mark-link .icon {position: absolute;left: 45%;top: 45%;-webkit-transform: translate(-45%, -45%);transform: translate(-45%, -45%);}
+.mark .mark-link:hover {transition: 0.20s;-webkit-transition: 0.20s;-moz-transition: 0.20s;-ms-transition: 0.20s;-o-transition: 0.20s;background-color: #1616c1;color: white;}
+.mark .mark-link.p-empty {background: none;width: 30px;min-width: 30px;height: 50px;}
+.mark .mark-link.p-empty .mark-link {display: none;}
+.data-values li {padding-left: 0px;margin: 2px;list-style-type: none;}
+.data-values li:nth-child(2), .data-values li:nth-child(3) {border-top: 1px solid rgba(0, 0, 0, 0.2);padding-top: 2px;}
+.fa-thermometer-half {padding-left: 10px;}
+.fa-tint {padding-left: 8px;}
+.fa-wind {padding-left: 4px;}
+.fa-snowflake {padding-left: 5px;}
+.fa-tachometer-alt {padding-left: 2px;}
+v-r {height: 100%;width: 1px;border-left: 1px solid gray;/*display: inline-block;*//*margin: 0 auto;*/}
+
+#sidebar #sounding_image:hover{
+    cursor:pointer;
+    background: #000;
+    opacity: 0.5;
+}
+.btn-default {
+    color: #fff;
+    background-color: #ff4800;
+}
+.container {
+    max-width: 640px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-size: 13px;
+    position: absolute;
+    top: 87%;
+    z-index: 9999;
+    width: 150px;
+    left: 1%;
+}
+#par_text{
+    color:#0004d3;
+    font-size:22px;
+}
+
+#timestep{
+    color:#000000;
+    font-size:22px;
+}
+
+#val{
+    color:#000000;
+    font-size:18px;
+}
+
+option {
+  font-size: 18px;
+  background-color: #ffffff;
+}
+
+option:before {
+  content: ">";
+  font-size: 20px;
+  display: none;
+  padding-right: 10px;
+  padding-left: 5px;
+  color: #fff;
+}
+
+option:hover:before {
+  display: inline;
+}
+.bottomline {
+    border-bottom: 0px solid #999;
+    position: absolute;
+    bottom: 18px;
+    bottom: 18px;
+    z-index: 99999;
+    background: rgba(125,125,125,0);
+    pointer-events: none;
+    width: 100%;
+}
+.bottomline .bl_menu {
+    background-color: rgba(255, 255, 255, 0.698);
+    margin-left: 45px;
+    width: 390px;
+    border-radius: 5px;
+    box-shadow: 0 0 4px 0 black;
+}
+.bottomline .bl_menu .bl_menu_icons {
+    padding: 25px 25px 22px -2px;
+    display: inline-block;
+    cursor: pointer;
+    pointer-events: auto;
+}
+.year{
+    position: relative;
+    width: 240px;
+    height: 40px;
+    border-radius: 10px;
+    border: none;
+    text-transform: capitalize;
+    color: #fff;
+    background: #292929;
+    text-align: left;
+    padding: 0 15px;
+    font-size: 16px;
+    cursor: pointer;
+}
+.domain{
+    position: relative;
+    width: 240px;
+    height: 40px;
+    border-radius: 10px;
+    border: none;
+    text-transform: capitalize;
+    color: #fff;
+    background: #292929;
+    text-align: left;
+    padding: 0 15px;
+    font-size: 16px;
+    cursor: pointer;
+}
+.form-control {
+    display: inline;
+    width: 100px;
+}
+
+select, select.form-control{
+    font-size: 17px;
+    font-weight: bold;
+}
+</style>
+</head>
+
+<body>
+<!--
+    <div class="container" style="width: auto;">
+        <ul class="ks-cboxtags" style="width: auto;">
+          <li><input style="width: auto;" type="checkbox" id="checkboxOne" value="prec" checked autocomplete="off"><label for="checkboxOne">Total Precipitation</label></li>
+          <li><input style="width: auto;" type="checkbox" id="checkboxTwo" value="temp"  autocomplete="off"><label for="checkboxTwo">Temperature</label></li>
+          <li><input style="width: auto;" type="checkbox" id="checkboxThree" value="wind"  autocomplete="off"><label for="checkboxThree">Wind</label></li>
+          <li><input style="width: auto;" type="checkbox" id="checkboxFour" value="hum" autocomplete="off"><label for="checkboxFour">Rel.Humidity</label></li>
+          <li><input style="width: auto;" type="checkbox" id="checkboxFive" value="slp" autocomplete="off"><label for="checkboxFive">Sea Level Pressure</label></li>
+        </ul>
+
+      </div>
+-->
+
+<div id="bottomline" class="bottomline">
+    <div class="bl_menu">
+        <div class="bl_menu_icons round10">
+            <center>
+                <img src="static/Images/fireweather.png" width=170px>
+                <br><b id='par_text'> Air temperature [°C]</b>
+                <b style="font-size:20px;"><br>Timestep: </b><font color='black'><b style="font-size:20px;">+</b><b id='timestep'>1</b><b style="font-size:20px;">z</b></font>
+                <img id="colorbar" src="static/Images/colorbars/TEMP_cbar.png" width=370px>
+                    <b id='val'><br><font color='black'>Domain</b></font>
+                    <b id='val' class='domain_val'> : </b><select  class="form-control" id="domain"></select>
+                    <b id='val'><br><font color='black'>Param</b></font>
+                    <b id='val' class='year_val'> : </b><select  class="form-control" id="year"></select>
+                    <br>
+                    <br>
+                    <button class="btn btn-outline-danger" id="previous"><font style="color:black;font-size: 18px;"><b> &nbsp;&nbsp;&nbsp;&nbsp;<span>&#129092;</span>&nbsp;&nbsp;&nbsp;&nbsp; </b></font></button>
+                    <span id="curidx"></span>
+                    <button class="btn btn-outline-danger" id="next"><font style="color:black;font-size: 18px;"><b> &nbsp;&nbsp;&nbsp;&nbsp;<span>&#129094;</span>&nbsp;&nbsp;&nbsp;&nbsp; </b></font></button>
+                    <br>
+                    <br>
+            </center>
+
+        </div>
+
+    </div>
+</div>
+
+<div id="myModal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content" >
+            <div class="modal-body" >
+                <img class="showimage img-responsive" src=""/>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="map">
+
+</div>
+
+<div id="sidebar">
+
+</div>
+
+    <script type="text/javascript">
+        var start = "TEMP";
+        var params = ["TEMP","ACCRAIN","RH","WSPD","HDW","DFMC","VPD"];
+        var info = { "TEMP": "Air temperature [°C]", "RH": "Relative humidity [%]", "ACCRAIN": "Accumulated rainfall [mm]", "WSPD": "Wind speed [km/h]", "DFMC": "Fine dead fuel moisture [%]" , "VPD": "Vapor pressure deficit [hPa]", "HDW": "Hot Dry Windy index"};
+        var eu_domain_bounds=[18.4139060, -29.7518311, 64.7923610, 57.6284481]
+        var gr_domain_bounds=[32.8383376, 17.7101618, 43.7656174, 31.7280838]
+        var doms=["Europe","Greece","Spain","England","Italy","France","N.Europe","Mediterranean","Turkey"]
+        var end = new Date().getFullYear()-1;
+        lon1=eu_domain_bounds[0]
+        lon2=eu_domain_bounds[1]
+        lat1=eu_domain_bounds[2]
+        lat2=eu_domain_bounds[3]
+        var options = "";
+        for(var i = 0 ; i <=6; i++){
+            options += "<option>"+ params[i] +"</option>";
+        }
+        document.getElementById("year").innerHTML = options;
+
+        var options_dom = "";
+        for(var i = 0 ; i <doms.length; i++){
+            options_dom += "<option>"+ doms[i] +"</option>";
+        }
+        document.getElementById("domain").innerHTML = options_dom;
+
+
+        var map = L.map('map', {
+            center: [38, 19], // Honolulu, HI
+            zoom: 6
+        });
+        
+
+        var sidebar = L.control.sidebar('sidebar', {
+            position: 'left'
+        });
+
+        map.addControl(sidebar);
+
+        map.on('click', addMarker);
+
+            var Marker;
+
+
+        //convert svg to base64 data
+        function svgText(txt) {
+            return '<svg width="120px" height="55px" viewBox="0 0 120 55" font-family="Arial" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><defs><linearGradient id="MyGradient" x1="0" x2="1" y1="0" y2="1"><stop offset="20%"  stop-color="white" stop-opacity="0.3"/><stop offset="50%"  stop-color="white" stop-opacity="0"/><stop offset="80%" stop-color="#555" stop-opacity="0.2"/></linearGradient><linearGradient id="MyGradient_back" x1="0" x2="0.5" y1="0" y2="1"><stop offset="0%"  stop-color="black" stop-opacity="0"/><stop offset="100%" stop-color="black" stop-opacity="0.4"/></linearGradient><path id="mark2" d="M 0,-1 -50,-1 A 5,5 0 0,1 -55,-6 L -55,-20 A 5,5 0 0,1 -50,-25 L 50,-25 A 5,5 0 0,1 55,-20 L 55,-6 A 5,5 0 0,1 50,-1 z" /><circle id="c1" cx="49" cy="-36" r="10" /></defs><g transform="translate(60,47)" ><circle cx="0" cy="1" r="2" fill="#555"/><path d="M 2,-4 2,-6 A 7,7 0 1,1 -2,-6 L -2,-4 A 5,5 0 1,0 2,-4 z" fill="#555" stroke="none" /><path d="M 0,0 v -20" stroke="#555" stroke-width="2" /><use xlink:href="#mark2" x="0" y="-14" stroke="#555" fill="#fff" stroke-width="2" /><text text-anchor="end" dominant-baseline="middle"  font-size="13px" transform="translate(-20,-26)" fill="#555" stroke="none"><tspan>T:</tspan></text><text text-anchor="start" dominant-baseline="middle" font-size="13px" transform="translate(-16,-26)" fill="#555" stroke="none"><tspan>'+txt+'</tspan></text></g></svg>';
+        }
+        var DOM="d01"
+        var PAR="TEMP";
+        var ts=1;
+        img=L.imageOverlay("static/Images/"+DOM+"/"+PAR+"/t_"+ts+".png",[[lon1, lon2], [lat1, lat2]],
+            {
+                opacity:0.75,
+                interactive: true
+            }
+
+            ).addTo(map);
+
+        $('#domain').change(function(){
+            d=$(this).val();
+            if (d=="Europe"){
+                DOM="d01"
+                lon1=eu_domain_bounds[0]
+                lon2=eu_domain_bounds[1]
+                lat1=eu_domain_bounds[2]
+                lat2=eu_domain_bounds[3]
+                map.setView(new L.LatLng(38, 19), 6);
+                map.removeLayer(img)
+            }else if(d=="Spain"){
+                DOM="d01"
+                lon1=eu_domain_bounds[0]
+                lon2=eu_domain_bounds[1]
+                lat1=eu_domain_bounds[2]
+                lat2=eu_domain_bounds[3]
+                map.setView(new L.LatLng(38.4, 0), 6);
+                map.removeLayer(img)
+            }else if(d=="England"){
+                DOM="d01"
+                lon1=eu_domain_bounds[0]
+                lon2=eu_domain_bounds[1]
+                lat1=eu_domain_bounds[2]
+                lat2=eu_domain_bounds[3]
+                map.setView(new L.LatLng(53.4, 5), 6);
+                map.removeLayer(img)
+            
+            }else if(d=="France"){
+                DOM="d01"
+                lon1=eu_domain_bounds[0]
+                lon2=eu_domain_bounds[1]
+                lat1=eu_domain_bounds[2]
+                lat2=eu_domain_bounds[3]
+                map.setView(new L.LatLng(48, 2), 6);
+                map.removeLayer(img)
+            
+            }else if(d=="Italy"){
+                DOM="d01"
+                lon1=eu_domain_bounds[0]
+                lon2=eu_domain_bounds[1]
+                lat1=eu_domain_bounds[2]
+                lat2=eu_domain_bounds[3]
+                map.setView(new L.LatLng(42, 15), 6);
+                map.removeLayer(img)
+            
+            }else if(d=="Mediterranean"){
+                DOM="d01"
+                lon1=eu_domain_bounds[0]
+                lon2=eu_domain_bounds[1]
+                lat1=eu_domain_bounds[2]
+                lat2=eu_domain_bounds[3]
+                map.setView(new L.LatLng(38, 10),6);
+                map.removeLayer(img)
+            
+            }else if(d=="N.Europe"){
+                DOM="d01"
+                lon1=eu_domain_bounds[0]
+                lon2=eu_domain_bounds[1]
+                lat1=eu_domain_bounds[2]
+                lat2=eu_domain_bounds[3]
+                map.setView(new L.LatLng(55, 14), 5.5);
+                map.removeLayer(img)
+            }else if(d=="Turkey"){
+                DOM="d01"
+                lon1=eu_domain_bounds[0]
+                lon2=eu_domain_bounds[1]
+                lat1=eu_domain_bounds[2]
+                lat2=eu_domain_bounds[3]
+                map.setView(new L.LatLng(39, 33), 7);
+                map.removeLayer(img)
+            }else{
+                DOM="d02"
+                lon1=gr_domain_bounds[0]
+                lon2=gr_domain_bounds[1]
+                lat1=gr_domain_bounds[2]
+                lat2=gr_domain_bounds[3]
+                map.setView(new L.LatLng(38.4, 24), 6.5);
+                map.removeLayer(img)
+            }
+     
+            img=L.imageOverlay("static/Images/"+DOM+"/"+PAR+"/t_"+ts+".png",[[lon1, lon2], [lat1, lat2]],
+            {
+                opacity:0.75,
+                interactive: true
+            }
+
+            ).addTo(map);
+        })
+        
+    
+        
+        //const myUrl = "Images/tp/"+yaer+".png";
+        //console.log(myOtherUrl.toString());                                                 //min-lat   min-lon   max-lat   max-lon
+      
+        
+        $('#year').change(function(){
+            PAR=$(this).val();
+            //$('.year_val').html(" : "+year)
+        // selected value
+            sidebar.hide();
+            if (Marker) {
+                map.removeLayer(Marker);
+            }
+
+            $(".leaflet-image-layer").attr("src", "static/Images/"+DOM+"/"+PAR+"/t_"+ts+".png");
+            $("#colorbar").attr("src", "static/Images/colorbars/"+PAR+"_cbar.png");
+            $("#par_text").text(info[PAR]);
+        // selected text
+            //alert($(this).find("option:selected").text());
+        })
+        $("#next").click( function()
+           {
+              
+             ts+=1
+             if(ts>24){
+                 ts=24;
+             } 
+                $(".leaflet-image-layer").attr("src", "static/Images/"+DOM+"/"+PAR+"/t_"+ts+".png");
+                $("#timestep").text(ts);
+            }
+        );
+        $("#previous").click( function()
+           { 
+             ts-=1
+             if(ts<=0){
+                 ts=1;
+             }
+                $(".leaflet-image-layer").attr("src", "static/Images/"+DOM+"/"+PAR+"/t_"+ts+".png");
+                $("#timestep").text(ts);
+             
+            }
+        );
+       
+
+        function addMarker(e) {
+
+
+            var angle = Math.floor((Math.random() * 10) + 1);
+
+            if($('#checkboxOne').is(':checked')) {
+                var temp_li="<li class='bolam_m'><i class='bolam_i'>Bolam</i>&nbsp;&nbsp;<v-r>&nbsp;&nbsp;</v-r>"+Math.floor((Math.random() * 35) + 1)+"°C</li>";
+            }
+            else{
+                var temp_li="";
+            }
+            if($('#checkboxTwo').is(':checked')) {
+                var rain_li="<li class='icon_m'><i class='icon_i'>ICON</i>&nbsp;&nbsp;<v-r>&nbsp;&nbsp;</v-r>"+Math.floor((Math.random() * 35) + 1)+"°C</li>";
+            }
+            else{
+                var rain_li="";
+            }
+            if($('#checkboxThree').is(':checked')) {
+                var wind_li="<li class='hermes_m'><i class='hermes_i'>Hermes</i>&nbsp;&nbsp;<v-r>&nbsp;&nbsp;</v-r>"+Math.floor((Math.random() * 35) + 1)+"°C</li>";
+            }
+            else{
+                var wind_li="";
+            }
+            if($('#checkboxFour').is(':checked')) {
+                var arp_li="<li class='arpege_m'><i class='arpege_i'>Arpege</i>&nbsp;&nbsp;<v-r>&nbsp;&nbsp;</v-r>"+Math.floor((Math.random() * 35) + 1)+"°C</li>";
+            }
+            else{
+                var arp_li="";
+            }
+
+		event.preventDefault();
+            //"<img src='soundings/BOLAM_SkewT_Kozani_0.png' width='500px' height='250px'>"
+           
+
+
+
+            //var s = temp.substr(0,7);
+
+
+        //remove previous markers
+
+
+
+
+
+
+        }
+
+
+        /*
+        function click1(){
+            Marker.on('click', function(){
+	        alert("Clicked");
+         });
+        }
+        */
+/*        $('input[type=checkbox]').on('change', function (e) {
+        if ($('input[type=checkbox]:checked').length > 3) {
+            $(this).prop('checked', false);
+            alert("Allowed only 3. Please uncheck some of checked and check new");
+        }
+        });
+  */
+
+        var defaultBase = L.tileLayer.provider('USGSTNM').addTo(map);
+
+        var baseLayers = {
+            'USGS TNM': defaultBase,
+            'ESRI Imagery': L.tileLayer.provider('Esri.WorldImagery'),
+            'ESRI Ocean Basemap': L.tileLayer.provider('Esri.OceanBasemap'),
+            'OSM Topo': L.tileLayer.provider('OpenTopoMap')
+        };
+
+          //define Drawing toolbar options
+          var options = {
+            position: 'topleft', // toolbar position, options are 'topleft', 'topright', 'bottomleft', 'bottomright'
+            drawMarker: true, // adds button to draw markers
+            drawPolyline: true, // adds button to draw a polyline
+            drawRectangle: true, // adds button to draw a rectangle
+            drawPolygon: true, // adds button to draw a polygon
+            drawCircle: true, // adds button to draw a cricle
+            cutPolygon: true, // adds button to cut a hole in a polygon
+            editMode: true, // adds button to toggle edit mode for all layers
+            removalMode: true, // adds a button to remove layers
+        };
+       /*
+        // add leaflet.pm controls to the map
+        var logo = L.control({position: 'bottomright'});
+		    logo.onAdd = function(map){
+            var div = L.DomUtil.create('div', 'myclass');
+            div.innerHTML= "<center><img src='static/Images/meteo_logo.png' width=300px><b id='val' ><br><font color='#ffee7f'>Parameter</font> : Total Precipitation [mm]</b><b id='val'><br><font color='#ffee7f'>Year</b></font><b id='val' class='year_val'> : "+year+"</b></center>";
+            return div;
+        }
+        logo.addTo(map);
+
+        var legend = L.control({position: 'bottomright'});
+
+        legend.onAdd = function (map) {
+
+        var div = L.DomUtil.create('div', 'info legend'),
+            grades = [0, 10, 20, 50, 100, 200, 500, 1000],
+            labels = [];
+            function getColor(d) {
+                return d > 1000 ? '#800026' :
+                    d > 500  ? '#BD0026' :
+                    d > 200  ? '#E31A1C' :
+                    d > 100  ? '#FC4E2A' :
+                    d > 50   ? '#FD8D3C' :
+                    d > 20   ? '#FEB24C' :
+                    d > 10   ? '#FED976' :
+                                '#FFEDA0';
+            }
+    // loop through our density intervals and generate a label with a colored square for each interval
+        for (var i = 0; i < grades.length; i++) {
+            div.innerHTML +=
+                '<i style="background:' + getColor(grades[i] + 1) + '"></i> ' +
+                grades[i] + (grades[i + 1] ? '&ndash;' + grades[i + 1] + '<br>' : '+');
+        }
+
+        return div;
+        };
+
+        legend.addTo(map);
+ */
+        //Logo position: bottomright
+
+
+
+        //add layer switch control
+        L.control.groupedLayers(baseLayers).addTo(map);
+
+        // Overview mini map
+        var Esri_WorldTopoMap = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}', {
+            attribution: '&copy; Esri &mdash; Esri, DeLorme, NAVTEQ, TomTom, Intermap, iPC, USGS, FAO, NPS, NRCAN, GeoBase, Kadaster NL, Ordnance Survey, Esri Japan, METI, Esri China (Hong Kong), and the GIS User Community'
+        });
+     /*
+        var credctrl = L.controlCredits({
+            image:"static/Images/meteo.png",
+            link: "https://www.meteo.gr/",
+            text: "Leaflet map example by kyrgeo @ <u>meteo.gr<u/>"
+        }).addTo(map);
+      */
+    </script>
+
+</body>
+
+</html>

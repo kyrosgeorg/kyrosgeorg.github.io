@@ -1,0 +1,855 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <title>ERA5Land Raster data - meteo.gr</title>
+
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.3.7/paper/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css">
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="https://www.amcharts.com/lib/3/amcharts.js"></script>
+    <script type="text/javascript" src="https://www.amcharts.com/lib/3/serial.js"></script>
+    <script src="https://www.amcharts.com/lib/3/plugins/tools/bestFitLine/bestFitLine.min.js"></script>
+    <script type="text/javascript" src="https://www.amcharts.com/lib/3/plugins/export/export.min.js"></script>
+    <link rel="stylesheet" href="https://www.amcharts.com/lib/3/plugins/export/export.css">
+
+
+    <!-- Load Leaflet: http://leafletjs.com/ -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/hamburgers/0.9.1/hamburgers.min.css" rel="stylesheet"/>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.2.0/dist/leaflet.css" integrity="sha512-M2wvCLH6DSRazYeZRIm1JnYyh22purTM+FDB5CsyxtQJYeKq83arPe5wgbNmcFXGqiSH2XR8dT/fJISVA1r/zQ==" crossorigin="" />
+    <script src="https://unpkg.com/leaflet@1.2.0/dist/leaflet.js" integrity="sha512-lInM/apFSqyy1o6s89K4iQUKg6ppXEgsVxT35HbzUupEVRh2Eu9Wdl4tHj7dZO0s1uvplcYGmt3498TtHq+log==" crossorigin=""></script>
+    
+    <!-- Esri Leaflet Plugin: https://esri.github.io/esri-leaflet/ -->
+    <script src="https://unpkg.com/esri-leaflet@2.1.3/dist/esri-leaflet.js" integrity="sha512-pijLQd2FbV/7+Jwa86Mk3ACxnasfIMzJRrIlVQsuPKPCfUBCDMDUoLiBQRg7dAQY6D1rkmCcR8286hVTn/wlIg==" crossorigin=""></script>
+
+    <!-- ESRI Renderer Plugin: https://github.com/Esri/esri-leaflet-renderers -->
+    <!-- Renders feature layer using default symbology as defined by ArcGIS REST service -->
+    <!-- Currently doesn't work with ESRI cluster plugin -->
+    <script src="https://unpkg.com/esri-leaflet-renderers@2.0.6/dist/esri-leaflet-renderers.js" integrity="sha512-mhpdD3igvv7A/84hueuHzV0NIKFHmp2IvWnY5tIdtAHkHF36yySdstEVI11JZCmSY4TCvOkgEoW+zcV/rUfo0A==" crossorigin=""></script>
+
+    <!-- Load Leaflet Basemap Providers: https://github.com/leaflet-extras/leaflet-providers -->
+    <!-- Modified to include USGS TNM web services -->
+
+	
+	<script src="assets/js/leaflet-providers.js"></script>
+
+
+    <!-- 2.5D OSM Buildings Classic: https://github.com/kekscom/osmbuildings -->
+    <script src="https://cdn.osmbuildings.org/OSMBuildings-Leaflet.js"></script>
+
+    <!-- Load Font Awesome icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css">
+
+
+
+    <!-- Grouped Layer Plugin: https://github.com/ismyrnow/leaflet-groupedlayercontrol  -->
+	<link rel="stylesheet" type="text/css" href="assets/css/leaflet.groupedlayercontrol.min.css">
+	<script src="assets/js/leaflet.groupedlayercontrol.min.js"></script>
+
+    <!-- Overview mini map Plugin: https://github.com/Norkart/Leaflet-MiniMap -->
+	<link rel="stylesheet" type="text/css" href="assets/css/Control.MiniMap.css">
+	<script src="assets/js/Control.MiniMap.min.js"></script>
+
+
+    <!-- Leaflet Drawing Plugin: https://github.com/codeofsumit/leaflet.pm -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet.pm@latest/dist/leaflet.pm.css">
+    <!--<script src="https://unpkg.com/leaflet.pm@latest/dist/leaflet.pm.min.js"></script>
+
+    <!-- Logo Credit Plugin: https://github.com/gregallensworth/L.Control.Credits -->
+	<link rel="stylesheet" type="text/css" href="assets/css/leaflet-control-credits.css">
+	<link rel="stylesheet" type="text/css" href="assets/css/L.Control.Sidebar.css">
+
+	<script src="assets/js/leaflet-control-credits.js"></script>
+	<script src="assets/js/L.Control.Sidebar.js"></script>
+
+    <link rel="icon" href="images/meteo.png">
+    <!-- Style of marker -->
+    <!--
+	<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/leaflet-mark.css') }}">
+    Style of marker -->
+<style>
+.bolam_i{
+    padding-left: 3px;
+    padding-right: 6px;
+}
+
+.icon_i{
+    padding-left: 3px;
+    padding-right: 12px;
+}
+.hermes_i{
+    padding-left: 2px;
+}
+.arpege_i{
+    padding-left: 2px;
+    padding-right: 3px;
+}
+
+.modal {
+	position: fixed;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	margin: auto;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+	box-sizing: border-box;
+    overflow: auto;
+	z-index: 99999999;
+}
+.modal-open .modal {
+    overflow-x: hidden;
+    overflow-y: hidden;
+}
+.leaflet-sidebar{
+    z-index: 1400;
+    max-width:600px;
+    max-height:400px;
+}
+@-webkit-keyframes pulse {
+	0% {
+		-webkit-transform: scale(0.95);
+		transform: scale(0.95);
+		-webkit-box-shadow: 0 0 0 0 rgba(0, 0, 0, 0.7);
+		box-shadow: 0 0 0 0 rgba(0, 0, 0, 0.7);
+	}
+	70% {
+		-webkit-transform: scale(1);
+		transform: scale(1);
+		-webkit-box-shadow: 0 0 0 10px rgba(0, 0, 0, 0);
+		box-shadow: 0 0 0 10px rgba(0, 0, 0, 0);
+	}
+	100% {
+		-webkit-transform: scale(0.95);
+		transform: scale(0.95);
+		-webkit-box-shadow: 0 0 0 0 rgba(0, 0, 0, 0);
+		box-shadow: 0 0 0 0 rgba(0, 0, 0, 0);
+	}
+}
+
+@keyframes pulse {
+0% {
+	-webkit-transform: scale(0.95);
+	transform: scale(0.95);
+	-webkit-box-shadow: 0 0 0 0 rgba(0, 0, 0, 0.7);
+	box-shadow: 0 0 0 0 rgba(0, 0, 0, 0.7);
+}
+70% {
+	-webkit-transform: scale(1);
+	transform: scale(1);
+	-webkit-box-shadow: 0 0 0 10px rgba(0, 0, 0, 0);
+	box-shadow: 0 0 0 10px rgba(0, 0, 0, 0);
+}
+100% {
+	-webkit-transform: scale(0.95);
+	transform: scale(0.95);
+	-webkit-box-shadow: 0 0 0 0 rgba(0, 0, 0, 0);
+	box-shadow: 0 0 0 0 rgba(0, 0, 0, 0);
+}
+}
+
+@-webkit-keyframes grow {
+	0% {
+		height: 145px;
+		bottom: 120px;
+	}
+	100% {
+		height: 145px;
+		bottom: 0px;
+	}
+}
+
+@keyframes grow {
+	0% {
+		height: 145px;
+		bottom: 120px;
+	}
+	100% {
+		height: 145px;
+		bottom: 0px;
+	}
+}
+
+.mark {transition: .3s opacity 0s;-webkit-transition: .3s opacity 0s;font-size: 15px;font-weight: bold;animation: fadein-full 2s;-webkit-animation: fadein-full 1s;opacity: 0;background-color: #ffe0b200;}
+.mark.open {opacity: 1;}
+.mark .mark-lines {left: -4px;position: relative;border-left: 2px solid white;height: 145px;border: 1px solid grey;cursor: move;-webkit-box-shadow: 0 0 1px 0 black;box-shadow: 0 0 1px 0 black;-webkit-animation: grow .2s linear;animation: grow .2s linear;}
+.mark .mark-lines::after {display: block;position: absolute;left: -6px;top: 140px;background-color: #ffee7f;width: 12px;height: 12px;border-radius: 2px;border: 0.6px solid black;border-radius: 50%;-webkit-box-shadow: 0 0 0 2px black;box-shadow: 0 0 0 2px black;margin: 0px;-webkit-animation: pulse 1s infinite;animation: pulse 1s infinite;content: "";}
+.mark .mark-lines::before {display: block;position: absolute;content: ' ';left: -10px;right: 0;width: 20px;height: 140px;}
+.mark .mark-content {position: absolute;left: 2px;top: 0;cursor: move;white-space: nowrap;color: black;background-color: white;border-top-right-radius: 20px;border-bottom-right-radius: 20px;-webkit-box-shadow: 0 0 9px 0 black;box-shadow: 0 0 9px 0 black;}
+.mark .mark-content .p-title {position: absolute;top: -18px;left: 0;color: #000000;text-shadow: 0 0 4px white;}
+.mark .mark-content a {color: black;}
+.mark .mark-content span {display: inline-block;padding: 0 5px 0 0px;margin-left: -41px;margin-bottom: -8px;margin-top: 0px;}
+.mark .mark-content span big {display: block;font-size: 18px;}
+.mark .mark-content i {font-style: inherit;color: #000000;font-size: .8em;}
+.mark .mark-link {transition: .3s opacity 0s;-webkit-transition: .3s opacity 0s;cursor: pointer;display: block;position: absolute;font-size: 18px;left: -19px;width: 28px;height: 100%;margin-left: -0.7em;bottom: 0px;background-color: #ffee7f;-webkit-box-shadow: 0 0 4px 0 black;box-shadow: 0 0 4px 0 black;cursor: pointer;text-align: center;border-top-left-radius: 50%;border-bottom-left-radius: 50%;cursor: pointer;z-index: 99999;text-decoration: none;}
+.mark .mark-link .icon {position: absolute;left: 45%;top: 45%;-webkit-transform: translate(-45%, -45%);transform: translate(-45%, -45%);}
+.mark .mark-link:hover {transition: 0.20s;-webkit-transition: 0.20s;-moz-transition: 0.20s;-ms-transition: 0.20s;-o-transition: 0.20s;background-color: #1616c1;color: white;}
+.mark .mark-link.p-empty {background: none;width: 30px;min-width: 30px;height: 50px;}
+.mark .mark-link.p-empty .mark-link {display: none;}
+.data-values li {padding-left: 0px;margin: 2px;list-style-type: none;}
+.data-values li:nth-child(2), .data-values li:nth-child(3) {border-top: 1px solid rgba(0, 0, 0, 0.2);padding-top: 2px;}
+.fa-thermometer-half {padding-left: 10px;}
+.fa-tint {padding-left: 8px;}
+.fa-wind {padding-left: 4px;}
+.fa-snowflake {padding-left: 5px;}
+.fa-tachometer-alt {padding-left: 2px;}
+v-r {height: 100%;width: 1px;border-left: 1px solid gray;/*display: inline-block;*//*margin: 0 auto;*/}
+
+#sidebar #sounding_image:hover{
+    cursor:pointer;
+    background: #000;
+    opacity: 0.5;
+}
+.btn-default {
+    color: #fff;
+    background-color: #ff4800;
+}
+.container {
+    max-width: 640px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-size: 13px;
+    position: absolute;
+    top: 87%;
+    z-index: 9999;
+    width: 150px;
+    left: 1%;
+}
+#val{
+    color:#222222;
+    font-size:18px;
+
+}
+option {
+  font-size: 18px;
+  background-color: #ffffff;
+}
+
+option:before {
+  content: ">";
+  font-size: 20px;
+  display: none;
+  padding-right: 10px;
+  padding-left: 5px;
+  color: rgb(229, 255, 0);
+}
+
+option:hover:before {
+  display: inline;
+}
+
+.leaflet-tooltip.my-labels {
+  background-color: transparent;
+  font-family: Tahoma;
+  border: transparent;
+  font-size: 13px;
+  box-shadow: none;
+  font-weight: bold;
+  color: white;
+  text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+  z-index: -100;
+}
+.bottomline {
+    border-bottom: 0px solid #999;
+    position: absolute;
+    bottom: 18px;
+    bottom: 18px;
+    z-index: 99999;
+    background: rgba(125,125,125,0);
+    pointer-events: none;
+    width: 100%;
+}
+.bottomline .bl_menu {
+    background-color: rgba(255, 255, 255, 0.95);
+    margin-left: 45px;
+    width: 390px;
+    border-radius: 5px;
+    box-shadow: 0 0 4px 0 black;
+}
+.bottomline .bl_menu .bl_menu_icons {
+    padding: 25px 25px 22px -2px;
+    display: inline-block;
+    cursor: pointer;
+    pointer-events: auto;
+}
+.year{
+    position: relative;
+    width: 200px;
+    height: 40px;
+    border-radius: 10px;
+    border: none;
+    text-transform: capitalize;
+    color: #fff;
+    background: #292929;
+    text-align: left;
+    padding: 0 15px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.param{
+    position: relative;
+    width: 240px;
+    height: 40px;
+    border-radius: 10px;
+    border: none;
+    text-transform: capitalize;
+    color: #fff;
+    background: #292929;
+    text-align: left;
+    padding: 0 15px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.opacity{
+    position: relative;
+    width: 240px;
+    height: 40px;
+    border-radius: 10px;
+    border: none;
+    text-transform: capitalize;
+    color: #fff;
+    background: #292929;
+    text-align: left;
+    padding: 0 15px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+#par_text{
+    color:#3d3d3d;
+    font-size:22px;
+}
+
+.form-control {
+    display: inline;
+    width: 90px;
+}
+
+.form-control-opacity {
+    background-color: transparent;
+    display: inline;
+    width: 45px;
+}
+
+.form-control-month {
+    background-color: transparent;
+    display: inline;
+    width: 55px;
+}
+
+
+select, select.form-control, select.form-control-opacity, select.form-control-month{
+    font-size: 17px;
+    font-weight: bold;
+}
+
+
+.bottomline .bl_menu{margin-left:10px;width:178px;}
+.bottomline .bl_menu:hover{background:rgb(255, 210, 63);}
+.bottomline .bl_menu .bl_menu_icons{padding:6px 2px 2px 6px;display:inline-block;cursor:pointer;pointer-events: auto;}
+.bottomline .bl_menu .bl_menu_icons.active{background:#fff;}
+
+.bottomline .bl_menu .bl_menu_info{font-size:15px;line-height:17px;vertical-align:middle;font-weight:bold;padding-left:10px;position:absolute;left:110px;bottom:-2px}
+.bottomline .bl_menu .bl_menu_wrap{height:60px;}
+.bottomline .bl_menu .bl_menu_datetime{}
+.bottomline .bl_menu .bl_menu_path{}
+
+.bottomline .bl_contents{background-color: rgba(255, 255, 255, 0.95);border-radius: 5px;box-shadow: 0 0 4px 0 black; padding:10px;margin:10px 10px 10px 10px;font-size:13px;display:none;max-width:430px;pointer-events: auto;}
+
+.bottomline .bl_menu_btn{padding:10px;}
+
+.bottomline .bl_contents div{}
+.bottomline .bl_contents div+div{margin-top:2px;}
+
+.bottomline .bl_contents div span{display:inline-block;}
+
+button {
+  outline: none;
+}
+
+.hamburger-box {
+  position: relative;
+  display: inline-block;
+  width: 40px;
+  height: 24px;
+  margin-bottom: -7px;
+}
+</style>
+</head>
+
+<body>
+
+<div id="bottomline" class="bottomline">
+    <div class="bl_contents round10">
+        <center>
+            <img src="images/meteo_logo.png" width=170px>
+            <br><b id='par_text'> CO emissions [ tonnes/cell ] </b>
+            <b id='val'><br><font color='black'>Param</b></font>
+            <b id='val' class='param_val'> : </b><select  class="form-control" id="param"></select>
+
+            <b id='val'><br><font color='black'>Opacity [%]</b></font>
+            <b id='val' class='opacity_val'> : </b><select  class="form-control-opacity" id="opacity"></select>
+            <img id="colorbar" src="assets/cbars/CO.png" width=370px>
+                <b id='val'><font color='black'>Month</b></font>
+                <b id='val' class='year_val'> : </b><select  class="form-control-month" id="month"></select>
+        </center>        
+    </div>
+    <div class="bl_menu">
+        <div class="bl_menu_icons round10">
+            <img src="assets/css/icons/meteo_logo_new_m_black.svg" width="80px">
+            <button class="hamburger hamburger--collapse" type="button">
+                <span class="hamburger-box">
+                  <span class="hamburger-inner"></span>
+                </span>
+              </button>
+        </div>
+    </div>
+</div>
+</div>
+
+<div id="myModal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content" >
+            <div class="modal-body" >
+                <img class="showimage img-responsive" src=""/>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div id="map">
+
+</div>
+
+<div id="sidebar">
+
+</div>
+
+    <script type="text/javascript">
+
+        var EL={};
+        var EN={};
+
+        $(document).ready(function() {
+        $(".hamburger").click(function() {
+
+            $(".bl_contents").toggle(600);
+            
+        });
+        });
+       
+        $('.hamburger').click(function(){
+            $(this).toggleClass("is-active");
+        // Toggle your menu here
+        // $('#menu').toggleClass('active');
+        });
+        
+        var params = ["CO","NH3","NMVOCs","NOx","PM10","PM25","SOX"];
+        var opacity_options = [20,40,60,80,100];
+        var info = { "CO": "CO emissions [ tonnes/cell ]", "NH3": "NH3 emissions [ tonnes/cell ]", "NMVOCs": "NMVOCs emissions [ tonnes/cell ]", "NOx": "NOx emissions [ tonnes/cell ]", "PM10": "PM10 emissions [ tonnes/cell ]" , "PM25": "PM25 emissions [ tonnes/cell ]", "SOX": "SOx emissions [ tonnes/cell ]"};
+        var units = { "CO": "CO [ tonnes/cell ]", "NH3": "NH3 [ tonnes/cell ]", "NMVOCs": "NMVOCs [ tonnes/cell ]", "NOx": "NOx [ tonnes/cell ]", "PM10": "PM10 [ tonnes/cell ]" , "PM25": "PM25 [ tonnes/cell ]", "SOX": "SOX [ tonnes/cell ]"};
+                
+        months=["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+        var months_dict = {
+            "Jan": 0,
+            "Feb": 1,
+            "Mar": 2,
+            "Apr": 3,
+            "May": 4,
+            "Jun": 5,
+            "Jul": 6,
+            "Aug": 7,
+            "Sep": 8,
+            "Oct": 9,
+            "Nov": 10,
+            "Dec": 11,
+        };
+
+        var options = "";
+        
+        for(var m=0; m<12; m++){
+            options += "<option>"+ months[m] +"</option>";
+        }
+        document.getElementById("month").innerHTML = options;
+
+        var options_par = "";
+        for(var i = 0 ; i <7; i++){
+            options_par += "<option>"+ params[i] +"</option>";
+        }
+        document.getElementById("param").innerHTML = options_par;
+
+        var options_opacity = "";
+        for(var i = 0 ; i <5; i++){
+            options_opacity += "<option>"+ opacity_options[i] +"</option>";
+        }
+        document.getElementById("opacity").innerHTML = options_opacity;
+        document.getElementById('opacity').value = '80';
+
+        
+        var PAR="CO";
+        var MON="Jan";
+       
+        
+        var southWest = L.latLng(25.907957292540424, 10.586389258684987),
+        northEast = L.latLng(45.834352535034164, 31.9177858022811),
+        bounds = L.latLngBounds(southWest, northEast);
+        var map = L.map('map', {
+            zoomControl:true, maxZoom:9, minZoom:7,
+            
+        }).fitBounds([[33.907957292540424,16.586389258684987],[42.834352535034164,31.9177858022811]]);
+        
+
+        function style_bounds(feature) {
+            return {
+                fillColor: 'grey', 
+                fillOpacity: 0.0,  
+                weight: 1.8,
+                opacity: 1,
+                color: 'black'
+            };
+        }
+        var boundaries = L.geoJson(null, {style: style_bounds});
+
+        $.getJSON("assets/greece.geojson", function(data) {
+            boundaries.addData(data);
+        });
+
+        boundaries.addTo(map);
+
+        cities = L.geoJson(null, {
+        //inital css style of grid
+        pointToLayer : function(feature, latlng) {
+                    label = String(feature.properties.ONOMA) 
+                    return L.circleMarker(latlng, {
+                        radius : 4,
+                        fillColor : "red",
+                        color : "#000",
+                        weight : 2,
+                        opacity : 1,
+                        fillOpacity : 1,
+                        zindex:10
+                    
+                    }).bindTooltip(label, {permanent: true, direction:"center", className: "my-labels", offset:[0,16]}).openTooltip();
+        }, 
+                    });
+    
+
+        $.getJSON('assets/cities.geojson', function (data) {
+            cities.addData(data);
+        })
+        
+        cities.addTo(map); // Only the Leaflet layer can be added to map.
+
+        img=L.imageOverlay("plots/"+PAR+"/"+MON+".png",[[34.13315760618516,19.027692158299747],[42.634782743087335,29.876482902666318]],
+            {
+                opacity:0.8,
+                interactive: true
+            }
+
+            ).addTo(map);
+
+        var sidebar = L.control.sidebar('sidebar', {
+            position: 'left'
+        });
+
+        map.addControl(sidebar);
+
+        map.on('click', addMarker);
+
+            var Marker;
+
+        var month="Jan";
+        //const myUrl = "Images/tp/"+yaer+".png";
+        //console.log(myOtherUrl.toString());                                                 //min-lat   min-lon   max-lat   max-lon
+       //L.imageOverlay("{{ url_for('static', filename='Images/tp/') }}"+year+".png",[[34.28, 17], [42.45, 31.7]] ,
+
+        
+
+        $('#param').change(function(){
+            PAR=$(this).val();
+            //$('.year_val').html(" : "+year)
+        // selected value
+            sidebar.hide();
+            if (Marker) {
+                map.removeLayer(Marker);
+            }
+            $("#par_text").text(info[PAR]);
+            $(".leaflet-image-layer").attr("src", "plots/"+PAR+"/"+MON+".png");
+            $("#colorbar").attr("src", "assets/cbars/"+PAR+".png");
+            //$(".leaflet-image-layer").attr("src", "/static/Images/tp/"+year+".png");
+        // selected text
+            //alert($(this).find("option:selected").text());
+        })
+
+        $('#opacity').change(function(){
+            OPAC=$(this).val();
+            $(".leaflet-image-layer").css('opacity', OPAC/100);
+            //$(".leaflet-image-layer").attr("src", "/static/Images/tp/"+year+".png");
+        // selected text
+            //alert($(this).find("option:selected").text());
+        })
+
+        $('#month').change(function(){
+            MON=$(this).val();
+            //$('.year_val').html(" : "+year)
+        // selected value
+            sidebar.hide();
+            if (Marker) {
+                map.removeLayer(Marker);
+            }
+            $(".leaflet-image-layer").attr("src", "plots/"+PAR+"/"+MON+".png");
+            //$(".leaflet-image-layer").attr("src", "static/Images/"+DOM+"/"+PAR+"/t_"+ts+".png");
+            
+            
+        // selected text
+            //alert($(this).find("option:selected").text());
+        })
+
+        function numberWithCommas(x) {
+            return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+        }
+        
+        function addMarker(e) {
+            event.preventDefault();
+            
+            $(document).ready(function () {
+                $.ajax({
+                    
+                    type : 'POST',
+                    url : 'scrape_data.php?lon='+Number((e.latlng.lng).toFixed(2))+'&lat='+Number((e.latlng.lat).toFixed(2))+'&par='+PAR,
+                    dataType: "json",
+                    success: function (response) {
+                        months=["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+                        var months_dict = {
+                            "Jan": 0,
+                            "Feb": 1,
+                            "Mar": 2,
+                            "Apr": 3,
+                            "May": 4,
+                            "Jun": 5,
+                            "Jul": 6,
+                            "Aug": 7,
+                            "Sep": 8,
+                            "Oct": 9,
+                            "Nov": 10,
+                            "Dec": 11,
+                        };
+                        bars=[];
+                        chartData=[];
+                        sounding = numberWithCommas(parseFloat(response[months_dict[MON]]).toFixed(0)); 
+                       
+
+                        for(var j=0; j<12;j++){
+                            
+                            if (months[j]!=MON){
+                                bars[j]=0;
+                            } else {
+                                bars[j]=response[months_dict[MON]];
+                            }
+                        }
+                        
+                        for (var i = 0; i < 12; i++) {
+                            chartData.push({
+                                "x": months[i],
+                                "y": Number(parseFloat(response[i]).toFixed(1)),
+                                "z": Number(parseFloat(bars[i]).toFixed(1))
+                            })
+                        }
+                    
+                        console.log(chartData);
+                
+                        if (Marker) {
+                            map.removeLayer(Marker);
+                        }
+
+                        var icon = L.divIcon({
+                        html: '<div class="leaflet-marker-icon leaflet-div-icon leaflet-zoom-animated leaflet-interactive" style="margin-left: 0px; margin-top: -125px; width: 0px; height: 0px; transform: translate3d(960px, 463px, 0px); z-index: 463;" tabindex="0"><div class="mark open"><div class="mark-lines"></div><div class="mark-content"><span><ul class="data-values"><li class="rain"><i class="fas fa-tint"></i>&nbsp;&nbsp;<v-r>&nbsp;&nbsp;</v-r>'+sounding+'</li></ul></span><a class="mark-link"><b class="icon">⤶</b></a></div></div></div>',
+                        iconSize: [0, 0],
+                        autoPan:true,
+                        iconAnchor: [960, 490]
+                        });
+
+                        Marker = new L.marker(e.latlng, {
+                            icon: icon,
+                            zIndexOffset: 99999999
+                        }).addTo(map);
+                    sidebar.show();
+                    sidebar.setContent("<p style='font-size:15px;'><b>"+Number((e.latlng.lat).toFixed(2))+", "+Number((e.latlng.lng).toFixed(2))+"</b></p><div id='chartdiv1' style='width: 730px; height: 430px; background-color: #FFFFFF;'></div>");
+                    $(document).ready(function () {
+                        $('#sidebar img').on('click', function () {
+                            var image = $(this).attr('src');
+                            jQuery.noConflict();
+                            $('#myModal').modal('show');
+                            $(".img-responsive").attr("src", image);
+                        });
+                    });
+                    AmCharts.makeChart("chartdiv1",
+                    {
+                        "type": "serial",
+                        "categoryField": "x",
+                        "startDuration": 0,
+                        "hideCredits": true,
+                        
+                        "categoryAxis": {
+                        "gridPosition": "start",
+                        "autoRotateAngle": 0,
+                        "autoRotateCount": 0,
+                        "labelOffset": 1,
+                        "labelFrequency": 0.5,
+                        "fontSize": 12,
+                        "centerRotatedLabels": true,
+                        "dashLength": 3,
+                        "fillAlpha": 0.13,
+                        "minorTickLength": 3,
+                        "title": "Month"
+                        },
+                        "numberFormatter": {precision:0, decimalSeparator:',', thousandsSeparator:'.'},
+                        "graphs": [
+                        {
+                            "type": "column",
+                            "fillAlphas": 0.63,
+                            "showBalloon": false,
+                            "stackable": false,
+                            "clustered":true,
+                            "lineColor": "black",
+                            "legendValueText": " ",
+                            "lineThickness": 1,
+                            "fillColors": "#ffb938",
+                            "id": "AmGraph-1",
+                            "title": MON,
+                            "valueField": "z",
+                            },
+                        {
+                            "type": "column",
+                            "balloonText": "[[title]] of [[category]]: [[value]] ",
+                            "bullet": "round",
+                            "bulletAlpha": 0.9,
+                            "stackable": false,
+                            "clustered":false,
+                            "bulletBorderAlpha": 0,
+                            "bulletBorderThickness": 0,
+                            "bulletSize": 5,
+                            "fillAlphas": 0.13,
+                            "lineColor": "black",
+                            "lineThickness": 1,
+                            "fillColors": "#ffb938",
+                            "switchable": false,
+                            "gapPeriod": 1,
+                            "id": "AmGraph-2",
+                            "title": PAR,
+                            "valueField": "y",
+                        }],
+                        "guides": [],
+                        "chartCursor": {
+	                    	"enabled": true
+	                    },
+                        "legend": {
+                            "enabled": true,
+		                    "useGraphSettings": true,
+                            "valueWidth": 0,
+                            "valueAlign": "left",
+                        },
+                        "valueAxes": [
+                        {
+
+                            "id": "ValueAxis-1",
+                            
+                            "minimum": 0,
+                            "stackType": "regular",
+                            "dashLength": 2,
+                            "gridCount": 40,
+                            "fontSize": 12,
+                            "integersOnly": true,
+                            "minorTickLength": 4,
+                            "title": units[PAR]
+                        }
+                        ],
+                        "allLabels": [
+                            {
+                            "id": "Label-1",
+                            "size": 11,
+                            "text": "National observatory of Athens - meteo.gr",
+                            "x": "10%",
+                            "y": "10%"
+                            }],
+                        "balloon": {},
+                        "legend": {
+                        "enabled": true,
+                        "useGraphSettings": true
+                        },
+                        "export": {
+						    "enabled": true
+					    },
+                        "titles": [
+                        {
+                            "id": "Title-1",
+                            "size": 19,
+                            "text": "Monthly mean "+info[PAR]
+                        }
+                        ],
+                        "dataProvider": chartData,
+                    });
+                    },
+                    error: function (statusCode, errorThrown) {
+                        if (statusCode.status == 0) {
+                            console.log("error")
+                        }
+                        
+                    
+                    }
+                });
+            });
+        }
+
+        var defaultBase = L.tileLayer.provider('Esri.WorldImagery').addTo(map);
+
+        var baseLayers = {
+            'Stamen Toner': defaultBase,
+            'USGS TNM': L.tileLayer.provider('USGSTNM'),
+            'ESRI Imagery': L.tileLayer.provider('Esri.WorldImagery'),
+            'ESRI Ocean Basemap': L.tileLayer.provider('Esri.OceanBasemap'),
+            'OSM Topo': L.tileLayer.provider('OpenTopoMap'),
+            
+        };
+
+        var layers_shapefile ={
+            'Greece boundaries': boundaries,
+            'Greek cities': cities
+        }
+
+          //define Drawing toolbar options
+          var options = {
+            position: 'topleft', // toolbar position, options are 'topleft', 'topright', 'bottomleft', 'bottomright'
+            drawMarker: true, // adds button to draw markers
+            drawPolyline: true, // adds button to draw a polyline
+            drawRectangle: true, // adds button to draw a rectangle
+            drawPolygon: true, // adds button to draw a polygon
+            drawCircle: true, // adds button to draw a cricle
+            cutPolygon: true, // adds button to cut a hole in a polygon
+            editMode: true, // adds button to toggle edit mode for all layers
+            removalMode: true, // adds a button to remove layers
+        };
+        
+        L.control.layers(baseLayers,layers_shapefile).addTo(map);
+
+        
+       //add scale bar to map
+       
+
+    </script>
+
+</body>
+
+</html>
