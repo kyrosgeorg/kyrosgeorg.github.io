@@ -56,7 +56,7 @@ Highcharts.chart("container", {
         ],
         
         title: {
-            text: "Mean monthly avegares of CO2 [2000 - present]",
+            text: "",
             style: {
                         fontSize: '30px',
                         color: '#303030',
@@ -67,11 +67,11 @@ Highcharts.chart("container", {
             enabled: true
         },
         subtitle: {
-            text: "Region: Mauna Loa Observatory | Hawaii - Data: gml.noaa.gov"
+            text: ""
         },
         data: {
             csvURL:
-        "https://gist.githubusercontent.com/kyrosgeorg/b176967ccb9e393dd47658aea45f1967/raw/f1ba051d6379629ebff0459564a2d990050cc13c/co2_mauna_loa_monthly.csv"
+        "https://gist.githubusercontent.com/kyrosgeorg/b176967ccb9e393dd47658aea45f1967/raw/8e305be406d73fb9d7a8a439673d432433f2480f/co2_mauna_loa_monthly.csv"
         },
 
         tooltip: {
@@ -109,7 +109,7 @@ Highcharts.chart("container", {
         },
         yAxis: {
             title: {
-            text: 'CO2 [ppm]',
+            text: 'CO2 [Μέρη στο εκατομμύριο]',
             style:{
                 fontWeight: 'bold',
                 fontSize: '15px'
@@ -117,7 +117,7 @@ Highcharts.chart("container", {
 
             },
             max: 424,
-            min: 365,
+            min: 375,
             minorGridLineWidth:1000005,
             "plotLines": [
       {
