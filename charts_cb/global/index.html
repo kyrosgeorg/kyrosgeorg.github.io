@@ -9,7 +9,7 @@
   <script src="https://code.highcharts.com/modules/data.js"></script>
   <script src="https://code.highcharts.com/modules/exporting.js"></script>
   <script src="https://code.highcharts.com/modules/accessibility.js"></script>
-  <title>Graphs Copernicus t2m Anomalies • Global • Climatebook</title>
+  <title>Graphs Copernicus t2m Anomalies • Europe • Climatebook</title>
 </head>
 
 <body>
@@ -112,12 +112,16 @@ Highcharts.chart("container", {
                     fontWeight: 'bold'
                     },
                     y: 15
-                }
-                }],
+                },
                 
-
+                }],
+                    
+        },labels: {
+                style: {
+                    fontSize:'17px'
+                }
+                },
         
-        }
         },
         yAxis: {
             title: {
@@ -125,11 +129,15 @@ Highcharts.chart("container", {
             style:{
                 fontWeight: 'bold',
                 fontSize: '15px'
+            },        
             },
-
+            labels: {
+                style: {
+                    fontSize:'17px'
+                }
             },
-            max: 1,
-            min: -0.4,
+            max: 4,
+            min: -4,
             minorGridLineWidth:1000005,
             "plotLines": [
       {
