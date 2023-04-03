@@ -79,7 +79,11 @@ Highcharts.chart("container", {
             enabled: true
         },
         subtitle: {
-            text: ""
+            verticalAlign: 'bottom',
+            y: -10,
+            x:-650,
+            fontSize:"17px",
+            text: "Copernicus.eu - ERA5 - C3S/ECMWF"
         },
         data: {
             csvURL:
@@ -123,6 +127,7 @@ Highcharts.chart("container", {
                 },
         
         },
+        
         yAxis: {
             title: {
             text: 'Θερμοκρασία [°C]',
